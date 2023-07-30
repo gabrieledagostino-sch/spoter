@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<link rel="icon" sizes="512x512" href="%sveltekit.assets%/favicon/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
 		%sveltekit.head%
 	</head>
@@ -10,3 +10,52 @@
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
 </html>
+<style>
+	:root {
+		/* theme 1 palette */
+		--alphaBg : #111;
+		--alphaCmp : #333;
+		--alphaCmp2: #BBB;
+		--alphaText : #1DB954;
+		--alphaText2 : #FFF;
+
+		/* chosen */
+		
+		--bgColor : var(--alphaBg);
+		/* --bgColor : var(--alphaBg); */
+		--mainColor : var(--alphaCmp); 
+		/* --mainColor : rgba(53,53,53,0.7); */
+		--complementary : var(--alphaCmp2);
+
+		--fg : var(--alphaText);
+		--complementaryFG : var(--alphaText2);
+
+		/* text dimensions */
+
+		--smallText : 12pt;
+		--mediumText : 24pt;
+		--bigText : 36pt;
+		--massiveText : 48pt;
+
+		/* fonts */
+		--mainFont : Arial, Helvetica, sans-serif;;
+
+	}
+
+	body {
+		margin: 0 auto;
+		background-color: var(--alphaBg);
+		color: var(--alphaText);
+		font-family: var(--mainFont);
+	}
+
+	a {
+		text-decoration: none;
+		color: var(--alphaText2);
+		cursor: pointer;
+	}
+
+	a:hover {
+		color: var(--alphaCmp2);
+	}
+</style>
