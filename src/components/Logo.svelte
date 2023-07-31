@@ -5,18 +5,17 @@
     export let hLabel = 'homepage';
 
     const handleClick = () => {
-        console.log('at least we are here');
         goto(href);
     }
 </script>
 
 {#if clickable}
     <div class="logo clickable" role="link" aria-label={`go to ${hLabel}`} tabindex=0 on:click={handleClick} on:keypress={handleClick} >
-        <img src="/logo.png" alt="logo" />
+        <img src="images/logo.png" alt="logo" />
     </div>
 {:else}
     <div class="logo">
-        <img src="/logo.png" alt="logo" />
+        <img src="images/logo.png" alt="logo" />
     </div>
 {/if}
 
@@ -41,6 +40,6 @@
     }
     
     .clickable:hover {
-        background-color: var(--complementary);
+        background-image: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 70%);
     }
 </style>

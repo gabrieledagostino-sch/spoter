@@ -1,4 +1,11 @@
+<svelte:head>
+    <title>Spoter - DISCover new music</title>
+    <!-- <link rel="stylesheet" href="styles/fontImport.css" /> -->
+    <!-- <link rel="stylesheet" href="styles/main.css" /> -->
+</svelte:head>
 <script>
+    import '../styles/fontImport.css';
+    import '../styles/main.css';
     import Header from "../components/Header.svelte";
     import Footer from "../components/Footer.svelte";
 </script>

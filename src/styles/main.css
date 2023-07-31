@@ -1,0 +1,46 @@
+:root {
+    /* theme 1 palette */
+    --alphaBg : #111;
+    --alphaCmp : #333;
+    --alphaCmp2: #BBB;
+    --alphaText : #1DB954;
+    --alphaText2 : #FFF;
+
+    /* chosen */
+    
+    --bgColor : var(--alphaBg);
+    --mainColor : var(--alphaCmp); 
+    --complementary : var(--alphaCmp2);
+
+    --fg : var(--alphaText);
+    --complementaryFG : var(--alphaText2);
+
+    /* text dimensions */
+    --smallerText : 10pt;
+    --smallText : 12pt;
+    --mediumText : 24pt;
+    --bigText : 36pt;
+    --massiveText : 48pt;
+
+    /* fonts */
+    --mainFont : Arial, Helvetica;
+    --logoFont : 'Righteous', sans-serif;
+
+}
+
+body {
+    margin: 0 auto;
+    background-color: var(--alphaBg);
+    color: var(--alphaText);
+    font-family: var(--mainFont);
+}
+
+a {
+    text-decoration: none;
+    color: var(--alphaText2);
+    cursor: pointer;
+}
+
+a:hover {
+    color: var(--alphaCmp2);
+}

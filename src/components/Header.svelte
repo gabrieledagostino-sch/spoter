@@ -14,7 +14,7 @@
         <p>Spoter</p>
     </div>
     <div class="profileButton">
-        <ProfileButton />
+        <ProfileButton loggedIn={false} /> <!-- TODO: login functionality -->
     </div>
 </header>
 
@@ -27,13 +27,18 @@
         border-bottom: 1px solid var(--complementary);
         font-size: var(--smallText); 
 
-        display: grid;
-        grid-template-columns: auto 1fr auto;
+        display: flex;
+        grid-template-columns: 1fr 1fr 1f;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
     }
     .profileButton {
         margin-right: 10px;
+        display: flex;
+        justify-content: right;
+    }
+    .logo, .profileButton, .title {
+        flex:1;
     }
     .title{
         width: 100%;
@@ -41,16 +46,11 @@
         color: var(--fg);
     }
     p{
-        margin:0px 0px 0px 100px;
+        margin:0px;
         padding: 2px 0px;
         font-size: var(--mediumText);
-        font-family: Arial, Helvetica, sans-serif;
-        font-weight: 600;
-        /* font-family: Georgia, serif;   */
-        /* font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif, serif;   */
-        /* font-family: Impact, sans-serif; */
+        font-family: var(--logoFont);
 
-        /* text-shadow: 2px 2px 3px rgba(255,255,255,0.2); */
         text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
         
     }

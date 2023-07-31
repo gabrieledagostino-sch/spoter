@@ -1,15 +1,9 @@
 <script>
-    import LoginButton from "../components/LoginButton.svelte";
+    import MainCard from "../components/MainCard.svelte";
 </script>
 
 <div class="content">
-    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic sequi molestias laudantium velit quis, natus fugiat, exercitationem impedit voluptatibus pariatur, illum temporibus? Minima quasi libero deserunt saepe at, voluptas enim.</p>
-    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic sequi molestias laudantium velit quis, natus fugiat, exercitationem impedit voluptatibus pariatur, illum temporibus? Minima quasi libero deserunt saepe at, voluptas enim.</p>
-    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic sequi molestias laudantium velit quis, natus fugiat, exercitationem impedit voluptatibus pariatur, illum temporibus? Minima quasi libero deserunt saepe at, voluptas enim.</p>
-    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic sequi molestias laudantium velit quis, natus fugiat, exercitationem impedit voluptatibus pariatur, illum temporibus? Minima quasi libero deserunt saepe at, voluptas enim.</p>
-    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic sequi molestias laudantium velit quis, natus fugiat, exercitationem impedit voluptatibus pariatur, illum temporibus? Minima quasi libero deserunt saepe at, voluptas enim.</p>
-    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic sequi molestias laudantium velit quis, natus fugiat, exercitationem impedit voluptatibus pariatur, illum temporibus? Minima quasi libero deserunt saepe at, voluptas enim.</p>
-    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic sequi molestias laudantium velit quis, natus fugiat, exercitationem impedit voluptatibus pariatur, illum temporibus? Minima quasi libero deserunt saepe at, voluptas enim.</p>
+    <MainCard />
 </div>
 
 <style>

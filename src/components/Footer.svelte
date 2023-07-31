@@ -7,7 +7,7 @@
 <footer>
     <p><i>Gabriele D'Agostino</i></p>
     <div class="githubLink" role="link" tabindex=0 aria-label="github @gabbo-sch" on:keypress={githubClick} on:click={githubClick}>
-        <img alt="github logo" src="/githublogo.svg" />
+        <img alt="github logo" src="images/githublogo.svg" />
     </div>
 </footer>
 
