@@ -1,7 +1,6 @@
 <script>
     import LoginButton from "./LoginButton.svelte";
     import { tweened } from "svelte/motion";
-    import { onMount } from "svelte";
 
     let spinInterval;
     let rotation = tweened(0, {duration:200});
@@ -29,7 +28,10 @@
             src="images/504759.svg" 
             alt="retro record" 
             width=150em 
-            style="transform: rotate({$rotation}turn);" 
+            style="
+                transform: rotate({$rotation}turn);
+                transform-origin: 49.17% 50.5%;
+            " 
             on:mouseenter={startSpin}
             on:mouseleave={stopSpin}
         />
@@ -65,10 +67,5 @@
         align-items: center;
         justify-content: space-around;
         padding : 10px 20px;
-    }
-
-    .disk {
-        border: 70px solid black;
-        border-radius: 1000px;
     }
 </style>
