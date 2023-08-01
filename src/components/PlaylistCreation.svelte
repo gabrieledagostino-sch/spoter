@@ -1,5 +1,6 @@
 <script>
     import Select2 from "./Select2.svelte";
+    import ListSong from "./ListSong.svelte";
 
     let options = ['Latest', 'Session', 'Artist', 'Genre'];
     let label = "Order by:";
@@ -10,22 +11,9 @@
             <Select2 {label} {options} />
     </div>
     <div class="innersongs">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium excepturi consectetur magnam explicabo doloremque saepe maiores officiis! Odio dicta nostrum harum earum? Error veniam culpa mollitia accusantium deserunt dicta perferendis!</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium excepturi consectetur magnam explicabo doloremque saepe maiores officiis! Odio dicta nostrum harum earum? Error veniam culpa mollitia accusantium deserunt dicta perferendis!</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium excepturi consectetur magnam explicabo doloremque saepe maiores officiis! Odio dicta nostrum harum earum? Error veniam culpa mollitia accusantium deserunt dicta perferendis!</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium excepturi consectetur magnam explicabo doloremque saepe maiores officiis! Odio dicta nostrum harum earum? Error veniam culpa mollitia accusantium deserunt dicta perferendis!</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium excepturi consectetur magnam explicabo doloremque saepe maiores officiis! Odio dicta nostrum harum earum? Error veniam culpa mollitia accusantium deserunt dicta perferendis!</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium excepturi consectetur magnam explicabo doloremque saepe maiores officiis! Odio dicta nostrum harum earum? Error veniam culpa mollitia accusantium deserunt dicta perferendis!</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium excepturi consectetur magnam explicabo doloremque saepe maiores officiis! Odio dicta nostrum harum earum? Error veniam culpa mollitia accusantium deserunt dicta perferendis!</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium excepturi consectetur magnam explicabo doloremque saepe maiores officiis! Odio dicta nostrum harum earum? Error veniam culpa mollitia accusantium deserunt dicta perferendis!</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium excepturi consectetur magnam explicabo doloremque saepe maiores officiis! Odio dicta nostrum harum earum? Error veniam culpa mollitia accusantium deserunt dicta perferendis!</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium excepturi consectetur magnam explicabo doloremque saepe maiores officiis! Odio dicta nostrum harum earum? Error veniam culpa mollitia accusantium deserunt dicta perferendis!</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium excepturi consectetur magnam explicabo doloremque saepe maiores officiis! Odio dicta nostrum harum earum? Error veniam culpa mollitia accusantium deserunt dicta perferendis!</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium excepturi consectetur magnam explicabo doloremque saepe maiores officiis! Odio dicta nostrum harum earum? Error veniam culpa mollitia accusantium deserunt dicta perferendis!</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium excepturi consectetur magnam explicabo doloremque saepe maiores officiis! Odio dicta nostrum harum earum? Error veniam culpa mollitia accusantium deserunt dicta perferendis!</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium excepturi consectetur magnam explicabo doloremque saepe maiores officiis! Odio dicta nostrum harum earum? Error veniam culpa mollitia accusantium deserunt dicta perferendis!</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium excepturi consectetur magnam explicabo doloremque saepe maiores officiis! Odio dicta nostrum harum earum? Error veniam culpa mollitia accusantium deserunt dicta perferendis!</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium excepturi consectetur magnam explicabo doloremque saepe maiores officiis! Odio dicta nostrum harum earum? Error veniam culpa mollitia accusantium deserunt dicta perferendis!</p>
+        {#each Array(30).keys() as i}
+            <ListSong rNum={i} />    
+        {/each}
     </div>
 </div>
 
@@ -55,24 +43,26 @@
 
     .innersongs {
         overflow-y: scroll;
-        height: 95%;
+        height: 100%;
+        display: grid;
+        margin:5% 1%;
+        padding: 0 4%;
+        grid-template-columns: 0.24fr 0.24fr 0.24fr 0.24fr;
+        gap: 5%;
+        scrollbar-width: 2px;
     }
 
     .innersongs::-webkit-scrollbar-track {
         background: var(--bgColor);
-        border-radius: 20px;
+        border-radius: 2px;
     }
 
     .innersongs::-webkit-scrollbar-thumb {
         background-color: var(--complementaryFG); 
         border-radius: 20px; 
     }
-
-    .innersongs {
-        scrollbar-width: 5px; 
-    }
     .innersongs::-webkit-scrollbar {
-        width: 5px;
+        width: 2px;
     }
 
 </style>

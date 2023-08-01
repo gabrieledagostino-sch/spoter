@@ -1,7 +1,8 @@
 <script>
-    import { onMount } from "svelte";
+    import { createEventDispatcher, onMount } from "svelte";
     import { slide } from "svelte/transition";
     import { clickOutside } from "$lib/clickOutside";
+    
 
     export let options;
     export let label = "";
@@ -9,6 +10,7 @@
     let show = false;
     let button;
     let selectWidth = `0px`;
+    let eventDispatcher = createEventDispatcher();
 
     $: longestWord = options.reduce((p,c) => p.length>c.length?p:c);
     
@@ -24,23 +26,21 @@
 <label for="select">
     {label} 
 </label>
-<div class="select">  
+<div class="select" use:clickOutside on:clickedOut={()=>{show=false}}>  
         <button class="selectButton" 
             id="select" 
             bind:this={button}
-            on:click={() => {
-                console.log("this is the culprit");
-                show=true;
-            }}
+            on:click={() => show=!show}
         >
             <span>{choice}</span><b>˅</b>
         </button>
     {#if show}
-        <div class="options" use:clickOutside on:clickedOut={()=>{show=false;}} style="width: {selectWidth}" transition:slide={{duration:100}}>
+        <div class="options" style="width: {selectWidth}" transition:slide={{duration:100}}>
             {#each options as option}
                 <button 
                     class="option" 
                     on:click|self|stopPropagation={() => {
+                        if(choice!=option) eventDispatcher('change',option);
                         choice=option; 
                         show=false;
                     }}
@@ -87,6 +87,7 @@
         border: 1px solid var(--complementaryFG);
         padding: 10px;
         border-radius: 10px;
+        z-index: 5;
     }
     .option {        
         all:unset;
