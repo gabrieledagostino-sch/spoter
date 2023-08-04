@@ -1,20 +1,31 @@
 <script>
     import { tweened } from "svelte/motion";
     import Fa from 'svelte-fa' 
-    import { faEllipsisVertical, faPlay, faPlayCircle } from '@fortawesome/free-solid-svg-icons'
-    import { onMount } from "svelte";
+    import { faEllipsisVertical, faPlay } from '@fortawesome/free-solid-svg-icons'
+    import { createEventDispatcher, onMount } from "svelte";
     export let rNum;
     
+    let eventDispatcher = createEventDispatcher();
     let iconColor = "rgb(255,255,255)";
     let bgColor = "rgb(0,0,0)"
     let scale = tweened(1, {
         duration:100
     });
+    
+    const  playClick = () => {
+        eventDispatcher("play");
+    };
+    const moreClick = () => {
+        eventDispatcher("more");
+    };
+
+    
     onMount(()=>{
         const rootStyles = getComputedStyle(document.documentElement);
         iconColor = rootStyles.getPropertyValue("--complementaryFG");
         bgColor = rootStyles.getPropertyValue("--bgColor");
     });
+
 </script>
 
 <div class="wrapper">
@@ -28,11 +39,11 @@
             Nulla sint enim duis ex eiusmod dolore consectetur ut officia. Do velit excepteur esse proident do nisi aliquip. Ex velit labore reprehenderit occaecat exercitation esse id. Occaecat sit exercitation excepteur sint do do aliqua cillum velit. Mollit esse reprehenderit mollit sint. Mollit labore dolore non fugiat incididunt. Velit non et amet aute.
         </div>
         <div class="controls">
-            <div class="playButton">
-                <Fa size="1.5vw" icon={faPlay} color={iconColor} />
-            </div>
-            <div class="moreDots">
+            <div class="moreDots" role="button" on:click={moreClick} on:keypress={moreClick} tabindex="0" >
                 <Fa size="1.5vw" icon={faEllipsisVertical} color={iconColor} />
+            </div>
+            <div class="playButton" role="button" on:click={playClick} on:keypress={playClick} tabindex="0">
+                <Fa size="1.5vw" icon={faPlay} color={iconColor} />
             </div>
         </div>
     </div>
@@ -103,7 +114,7 @@
         top:0;
         left:0;
         right:0;
-        bottom:75%;
+        bottom : 25%;
         padding: .5vw;
         color: var(--complementaryFG);
         overflow: hidden;

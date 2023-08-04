@@ -1,6 +1,6 @@
 <script>
-    import PlaylistCreation from "../../components/PlaylistCreation.svelte";
-    import Profile from "../../components/Profile.svelte";
+    import PlaylistCreation from "../../components/profile/PlaylistCreation.svelte";
+    import Profile from "../../components/profile/Profile.svelte";
 
 </script>
 

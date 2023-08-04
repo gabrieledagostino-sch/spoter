@@ -1,6 +1,6 @@
 <script>
-    import Logo from "./Logo.svelte";
-    import ProfileButton from "./ProfileButton.svelte";
+    import Logo from "../shared/Logo.svelte";
+    import ProfileButton from "../shared/ProfileButton.svelte";
 </script>
 
 <header>

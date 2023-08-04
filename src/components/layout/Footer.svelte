@@ -30,6 +30,7 @@
         color: var(--complementary);
         border-top: 1px solid var(--complementary);
         background-color: var(--mainColor);
+        font-size: var(--smallerText);
         align-items: center;
         justify-content: center;
         gap: 20px;
@@ -44,7 +45,6 @@
         padding:5px;
     }
     .githubLink:hover {
-        height: 100%;
-        background-color: var(--complementary);
+        background-image: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 70%);
     }
 </style>

@@ -67,6 +67,7 @@
     .selectButton {
         all:unset;
         border: 1px solid var(--complementaryFG);
+        background-color: rgba(0,0,0,0.5);
         padding: 10px;
         border-radius: 10px;
         cursor: pointer;

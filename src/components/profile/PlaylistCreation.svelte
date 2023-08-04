@@ -1,5 +1,5 @@
 <script>
-    import Select2 from "./Select2.svelte";
+    import Select2 from "../shared/Select2.svelte";
     import ListSong from "./ListSong.svelte";
 
     let options = ['Latest', 'Session', 'Artist', 'Genre'];
@@ -11,7 +11,7 @@
             <Select2 {label} {options} />
     </div>
     <div class="innersongs">
-        {#each Array(30).keys() as i}
+        {#each Array(5).keys() as i}
             <ListSong rNum={i} />    
         {/each}
     </div>

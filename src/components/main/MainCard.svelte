@@ -1,5 +1,5 @@
 <script>
-    import LoginButton from "./LoginButton.svelte";
+    import LoginButton from "../shared/LoginButton.svelte";
     import { tweened } from "svelte/motion";
 
     let spinInterval;
@@ -42,10 +42,16 @@
     .content {
         display: flex;
         flex-direction: row;
+        width: 50w;
+        height: 40vh;
         gap: 10vh;
     }
     .biglogo {
         flex:1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
     .title{
         width: 100%;

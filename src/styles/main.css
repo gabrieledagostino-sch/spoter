@@ -16,11 +16,11 @@
     --complementaryFG : var(--alphaText2);
 
     /* text dimensions */
-    --smallerText : 10pt;
-    --smallText : 12pt;
-    --mediumText : 24pt;
-    --bigText : 36pt;
-    --massiveText : 48pt;
+    --smallerText : 1vmax;
+    --smallText : 1.5vmax;
+    --mediumText : 2vmax;
+    --bigText : 2.5vmax;
+    --massiveText : 3vmax;
 
     /* fonts */
     --mainFont : Arial, Helvetica;
@@ -29,9 +29,9 @@
 }
 
 body {
-    margin: 0 auto;
+    margin: 0;
+    color: var(--fg);
     background-color: var(--alphaBg);
-    color: var(--alphaText);
     font-family: var(--mainFont);
 }
 

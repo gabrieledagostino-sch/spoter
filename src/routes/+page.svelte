@@ -1,5 +1,5 @@
 <script>
-    import MainCard from "../components/MainCard.svelte";
+    import MainCard from "../components/main/MainCard.svelte";
 </script>
 
 <div class="content">
@@ -13,7 +13,7 @@
         border:1px black;
         padding: 10px;
         width: auto;
-        height: 100%;
+        height: auto;
         background-color: var(--mainColor);
         color: var(--complementaryFG);
     }
