@@ -2,7 +2,7 @@
     import { onMount } from "svelte";
     import { animate } from "../../lib/cardDragging";
     import Card from "./Card.svelte";
-    import { fade, fly, slide } from "svelte/transition";
+    import { fly } from "svelte/transition";
 
     let cards = [
         {id : 0},
@@ -27,8 +27,6 @@
     $: active = cards[0] ?? undefined;
     $: second = cards[1] ?? undefined;
     $: third = cards[2] ?? undefined;
-
-    $: console.log(`active : ${active?.id} second : ${second?.id} third : ${third?.id}`)
 </script>
 <div 
     class="content"
@@ -43,7 +41,7 @@
             on:swiped={swiped}
             out:fly={{x:last*200, y:-100}}
         >
-            <Card />
+            <Card id={card.id} />
         </div>
     {/each}
 </div>

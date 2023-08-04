@@ -7,7 +7,6 @@ export const animate = (t, options={}) => {
     let rotation = 0;
     const threshold = options.threshold ?? 100;
     const rotDeg = options.rotDeg ?? 15;
-    const offX = options.offX ?? 400;
 
     interact(t).draggable({
         onstart: (e) => {

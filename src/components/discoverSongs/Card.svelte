@@ -2,6 +2,7 @@
     export let mainColor = `rgb(255,255,255)`;
     export let secondaryColor = `rgb(128,128,128)`;
     export let bgColor = `rgb(0,0,0)`;
+    export let id;
 
     let draggingCard;
 </script>
@@ -11,7 +12,7 @@
 >
     <div class="mainShow" style:background-color={bgColor}>
         <div class="image" style:border-color={mainColor} >
-            <img src="https://picsum.photos/400" alt="">
+            <img src="https://picsum.photos/400?random={id}" alt="">
         </div>
         <div class="mainInfo">
             <div class="name" style:color={mainColor} >
@@ -31,7 +32,7 @@
     .content {
         width: 100%;
         height: 100%;
-        border: 1px solid var(--bgColor);
+        box-shadow: 1px 1px 4px black;
         display: flex;
         flex-direction: column;
         align-items: center;
