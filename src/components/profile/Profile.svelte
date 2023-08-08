@@ -1,6 +1,4 @@
 <script>
-  import { faGear } from "@fortawesome/free-solid-svg-icons";
-import Fa from "svelte-fa/src/fa.svelte";
 
 
 </script>
@@ -35,7 +33,7 @@ import Fa from "svelte-fa/src/fa.svelte";
         </li>
     </ul>
     <div class="menu">
-        <Fa icon={faGear} />
+        <i class="fa-solid fa-gear"></i>
     </div>
 </div>
 

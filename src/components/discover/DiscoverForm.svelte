@@ -1,7 +1,5 @@
 <script>
-    import { faSearch } from "@fortawesome/free-solid-svg-icons";
     import { onMount } from "svelte";
-    import Fa from "svelte-fa";
     import { tweened } from "svelte/motion";
     import Selector from "../shared/Selector.svelte";
 
@@ -36,7 +34,7 @@
         <span>
             <div class="search">
                 <input type="text" />
-                <Fa icon={faSearch} color={fgColor} />
+                    <i class="fa-solid fa-magnifying-glass"></i>
             </div>
         </span>
         <span>

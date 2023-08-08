@@ -1,7 +1,5 @@
 <script>
     import { tweened } from "svelte/motion";
-    import Fa from 'svelte-fa' 
-    import { faEllipsisVertical, faPlay } from '@fortawesome/free-solid-svg-icons'
     import { createEventDispatcher, onMount } from "svelte";
     export let rNum;
     
@@ -40,10 +38,10 @@
         </div>
         <div class="controls">
             <div class="moreDots" role="button" on:click={moreClick} on:keypress={moreClick} tabindex="0" >
-                <Fa size="1.5vw" icon={faEllipsisVertical} color={iconColor} />
+		        <i class="fas fa-ellipsis-v"></i>
             </div>
             <div class="playButton" role="button" on:click={playClick} on:keypress={playClick} tabindex="0">
-                <Fa size="1.5vw" icon={faPlay} color={iconColor} />
+		        <i class="fas fa-play"></i>
             </div>
         </div>
     </div>
