@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  client:
+    build: .
+    image: spoter-ws
+    container_name: spoter-ws
+    ports:
+      - 5173:5173
+    volumes:
+      - ./src:/home/node/spoter/src
+      - ./static:/home/node/spoter/static
+      - ./__test__:/home/node/spoter/__test__
+      - ./.babelrc:/home/node/spoter/.babelrc
+      - ./.env:/home/node/spoter/.env
+      - ./svelte.config.js:/home/node/spoter/svelte.config.js
+      - ./vite.config.js:/home/node/spoter/vite.config.js
+      - ./playwright.config.js:/home/node/spoter/playwright.config.js
+    tty: true
+    command: npm run dev
