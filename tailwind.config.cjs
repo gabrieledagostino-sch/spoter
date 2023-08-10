@@ -22,6 +22,9 @@ const config = {
         "mainFont":"Arial, Helvetica",
         "logoFont":"Righteous, sans-serif"
       },
+      backgroundImage : {
+        "glow":"radial-gradient(ellipse at center, white 0%, transparent 70%);"
+      }
     },
   },
 

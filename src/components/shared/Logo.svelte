@@ -1,0 +1,31 @@
+<script>
+    import { goto } from "$app/navigation"
+    export let clickable = false
+    export let href = '/'
+    export let hLabel = 'homepage'
+
+    const handleClick = () => {
+        goto(href);
+    }
+</script>
+
+{#if clickable}
+    <div role="link" aria-label={`go to ${hLabel}`} on:click={handleClick} on:keypress={handleClick} tabindex=0 class="inline-block hover:bg-glow">
+        <img src="logo/logo.png" alt="logo" />
+    </div>
+{:else}
+    <div class="inline-block">
+        <img src="logo/logo.png" alt="logo">
+    </div>
+{/if}
+
+<style type="postcss">
+    :root {
+        --width:64px;
+        --height:64px;
+    }
+    img {
+        width: var(--width);
+        height: var(--height);
+    }
+</style>

@@ -1,7 +1,8 @@
 <script>
-    import Title from "../components/layout/Title.svelte";
-    import Logo from "../components/shared/Logo.svelte";
-    import ProfileButton from "../components/shared/ProfileButton.svelte";
+  import Title from "../layout/Title.svelte";
+import Logo from "../shared/Logo.svelte";
+  import ProfileButton from "../shared/ProfileButton.svelte";
+
 </script>
 <div
     class="
@@ -24,7 +25,7 @@
         class="
             hidden
             flex-1
-            sm:flex
+            md:flex
             flex-col
             items-center
             justify-center
