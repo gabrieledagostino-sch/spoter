@@ -2,3 +2,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --alphaBg : #111;
+    --alphaCmp : #333;
+    --alphaCmp2: #BBB;
+    --alphaText : #1DB954;
+    --alphaText2 : #FFF;
+
+    /* chosen */
+    
+    --bgColor : var(--alphaBg);
+    --mainColor : var(--alphaCmp); 
+    --complementary : var(--alphaCmp2);
+
+    --fg : var(--alphaText);
+    --complementaryFG : var(--alphaText2);
+
+    /* text dimensions */
+    --smallerText : 1vmax;
+    --smallText : 1.5vmax;
+    --mediumText : 2vmax;
+    --bigText : 2.5vmax;
+    --massiveText : 3vmax;
+
+    /* fonts */
+    --mainFont : Arial, Helvetica;
+    --logoFont : 'Righteous', sans-serif;
+
+}
+
+body {
+    margin: 0;
+    color: var(--fg);
+    background-color: var(--alphaBg);
+    font-family: var(--mainFont);
+    overflow:hidden;
+    min-width:100vw;
+    min-height:100vh;
+}

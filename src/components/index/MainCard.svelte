@@ -1,18 +1,17 @@
 <script>
-    import Title from "../components/layout/Title.svelte";
-    import Logo from "../components/shared/Logo.svelte";
-    import ProfileButton from "../components/shared/ProfileButton.svelte";
+  import Title from "../layout/Title.svelte";
+import Logo from "../shared/Logo.svelte";
+  import ProfileButton from "../shared/ProfileButton.svelte";
+
 </script>
 <div
     class="
         w-full
-        min-h-full
+        h-full
         bg-bgColor
 
         lg:w-1/2
         lg:h-1/2
-        lg:mx-auto
-        lg:my-auto
         lg:bg-mainColor
         flex
         flex-row
@@ -26,7 +25,7 @@
         class="
             hidden
             flex-1
-            sm:flex
+            md:flex
             flex-col
             items-center
             justify-center
@@ -53,6 +52,6 @@
         "
     >
         <Logo --width="25vmin" --height="25vmin" />
-        <ProfileButton dialog="true" />
+        <ProfileButton />
     </div>
 </div>
