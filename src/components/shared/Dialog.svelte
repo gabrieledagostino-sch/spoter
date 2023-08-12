@@ -72,7 +72,8 @@
                     absolute
                     bottom-full
                     {arrowPos}
-                    {direction==='right'?'':'-'}translate-x-1/2
+                    {direction==="right"?'':'-'}translate-x-{direction==='center'?'1/2':'full'}
+                    
                 "
                 transition:slide={{duration:100, delay:200}} 
             ></div>
@@ -87,6 +88,7 @@
                         text-bgColor
                         {choice.effect !== undefined? `
                             duration-200
+                            hover:bg-select
                             hover:text-fg
                             curosr-pointer
                         `:''}

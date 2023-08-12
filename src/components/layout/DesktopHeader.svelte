@@ -29,6 +29,6 @@
             mr-4
         "
     >
-        <ProfileButton />
+        <ProfileButton dialog="true" />
     </div>
 </header>

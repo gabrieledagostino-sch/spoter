@@ -13,6 +13,7 @@
         text-smallText
 
         w-full
+        h-auto
         bg-mainColor
 
         flex

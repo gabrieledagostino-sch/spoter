@@ -20,12 +20,8 @@
 {/if}
 
 <style type="postcss">
-    :root {
-        --width:64px;
-        --height:64px;
-    }
     img {
-        width: var(--width);
-        height: var(--height);
+        width: var(--width, 64px);
+        height: var(--height, 64px);
     }
 </style>

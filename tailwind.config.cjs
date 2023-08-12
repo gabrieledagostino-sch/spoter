@@ -9,7 +9,7 @@ const config = {
         "mainColor":"var(--mainColor)",
         "complementary":"var(--complementary)",
         "fg":"var(--fg)",
-        "complementaryFG":"var(--complementaryFG)"
+        "complementaryFG":"var(--complementaryFG)",
       },
       fontSize : {
         "smallerText":"0.5rem",
@@ -20,10 +20,11 @@ const config = {
       },
       fontFamily: {
         "mainFont":"Arial, Helvetica",
-        "logoFont":"Righteous, sans-serif"
+        "logoFont":"Righteous, sans-serif",
       },
       backgroundImage : {
-        "glow":"radial-gradient(ellipse at center, white 0%, transparent 70%);"
+        "glow":"radial-gradient(ellipse at center, white 0%, transparent 70%);",
+        "select":"linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.5) 50%, rgba(255,255,255,0) 100%)",
       }
     },
   },

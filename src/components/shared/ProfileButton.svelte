@@ -2,11 +2,13 @@
     import LoggedButton from "./LoggedButton.svelte";
     import LoginButton from "./LoginButton.svelte";
 
+    export let dialog = false;
+
     let logged = false;
 </script>
 
 {#if logged}
-    <LoggedButton />
+    <LoggedButton {dialog} />
 {:else}
     <LoginButton />
 {/if}

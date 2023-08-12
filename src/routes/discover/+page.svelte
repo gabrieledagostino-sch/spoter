@@ -1,6 +1,7 @@
 <script>
   import { fade } from "svelte/transition";
     import Selector from "../../components/shared/Selector.svelte";
+  import Button from "../../components/shared/Button.svelte";
 
     let choices = [
         'Similar To',
@@ -12,67 +13,50 @@
     let value = 0;
 
 </script>
-<div class="card
+<div class="
+        box-border
+        
+        w-full
+        min-h-full
+
+        rounded-3xl
+
+        md:mx-[12.5%]
+        md:my-[12.5%]
+        lg:bg-mainColor
         flex
         flex-col
         justify-evenly
         items-center
-        w-full
-        h-full
-        lg:w-3/4
-        lg:h-1/2
-        mx-auto
-        my-auto
-        lg:bg-mainColor
     "
 >
     <div 
-        class="selector
-            w-3/4
-            mx-auto
+        class="
             flex-1
             flex
             justify-center
             items-center
+            w-3/4
         "
     >
         <Selector {choices} bind:currchoice={value}/>
     </div>
     <form
         class="
+            flex-1
             flex
             flex-col
             justify-evenly
             items-center
-            flex-1
         "
     >
         {#if value!=3}
-            <span class="flex-1" transition:fade>
-                <div class="search">
-                    <input type="text" class="text-mainColor"> <i class="fas fa-search" />
-                </div>
+            <span class="" in:fade={{duration:200, delay:15}} out:fade={{duration:200}}>
+                <input type="text" class=""> <i class="fas fa-search" />
             </span>
         {:else}
-            <div class="flex-1"></div>
+            <div in:fade={{delay:215}} ></div>
         {/if}
-        <span
-            class="w-full flex-1 flex justify-center items-center"
-        >
-            <button
-                type="submit"
-                class="
-                    bg-fg
-                    rounded-xl
-                    px-5
-                    py-1.5
-                    text-mainColor
-                    text-mediumText
-                    font-bold
-                    hover:scale-110
-                    duration-200
-                "
-            >Discover!</button>
-        </span>
+        <Button kind="primary" >Discover</Button>
     </form>
 </div>

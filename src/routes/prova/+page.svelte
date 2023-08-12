@@ -1,5 +1,11 @@
-<script>
-  import Logo from "../../components/shared/Logo.svelte";
-
-</script>
-<Logo clickable={true} --width="100px" --height="100px" />
+<div
+    class="
+        flex
+        w-full
+        h-min-full
+        justify-center
+        items-center
+    "
+>
+    STUFF THAT NEEDS LAYOUTING GOES HERE
+</div>

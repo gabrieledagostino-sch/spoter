@@ -1,7 +1,7 @@
 <script>
     import Dialog from "../shared/Dialog.svelte";
-    import ProfileButton from "../shared/ProfileButton.svelte";
     import Title from "./Title.svelte";
+    import ProfileButton from "../shared/ProfileButton.svelte";
     
     let choices = [
         {
@@ -24,33 +24,38 @@
 </script>
 <header
     class="
+        relative
         bg-mainColor 
         text-complementaryFG 
         border-b-complementaryFG 
         border-b-2
         items-center
-        justify-end
+        justify-center
         text-mediumText
         flex
         flex-row
         p-1
-        pb-2
     "
 >
     <div class="
-        title 
-        absolute top-0 left-1/2 -translate-x-1/2
+        title
     ">
         <Title />
     </div>
-    <Dialog {choices} direction={'left'}>
-        <i class="
-            fa-solid 
-            fa-bars
-            flex
-            justify-end
-            mx-2
-        "></i>
-    </Dialog>
-    
+    <div 
+        class="menu
+            absolute
+            right-0
+            top-0
+            translate-y-3/4
+        "
+    >
+        <Dialog {choices} direction={'left'}>
+            <i class="
+                fa-solid 
+                fa-bars
+                mx-4
+            "></i>
+        </Dialog>    
+    </div>
 </header>

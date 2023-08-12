@@ -6,11 +6,13 @@
 <div
     class="
         w-full
-        h-full
+        min-h-full
         bg-bgColor
 
         lg:w-1/2
         lg:h-1/2
+        lg:mx-auto
+        lg:my-auto
         lg:bg-mainColor
         flex
         flex-row
@@ -51,6 +53,6 @@
         "
     >
         <Logo --width="25vmin" --height="25vmin" />
-        <ProfileButton />
+        <ProfileButton dialog="true" />
     </div>
 </div>

@@ -55,6 +55,7 @@
             p-0
             bg-bgColor
             lg:bg-mainColor
+            gap-4
         "
     >
         {#each choices as choice, i}
