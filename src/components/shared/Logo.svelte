@@ -11,7 +11,7 @@
 
 {#if clickable}
     <div role="link" aria-label={`go to ${hLabel}`} on:click={handleClick} on:keypress={handleClick} tabindex=0 class="inline-block hover:bg-glow">
-        <img src="logo/logo.png" alt="logo" />
+        <img src="/logo/logo.png" alt="logo" />
     </div>
 {:else}
     <div class="inline-block">

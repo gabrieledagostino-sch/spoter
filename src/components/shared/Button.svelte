@@ -4,6 +4,7 @@
     export let label = "";
     export let kind = "secondary";
     export let cursor = "pointer"
+    export let submit = false;
     let lblColor = kind === "primary"? 'fg' : kind === 'secondary' ? 'fg' : 'complementaryFG';
     let bgColor = kind === "primary" ? 'fg' : kind === 'secondary' ? 'complementaryFG' : 'bgColor';
     let color = kind === "primary"? 'mainColor' : kind==='secondary'? 'mainColor' : 'complementaryFG';
@@ -24,10 +25,14 @@
             hover:scale-110
             duration-200
         "
+        type="{submit?"submit":""}"
         style:color={`var(--${color})`}
         style:background-color={`var(--${bgColor})`}
         style:cursor={cursor}
-        on:click|preventDefault={_ => dispatch('click')}
+        on:click={ev => {
+            if(!submit) ev.preventDefault()
+            dispatch('click')
+        }}
     >
     <slot />
 </button>
