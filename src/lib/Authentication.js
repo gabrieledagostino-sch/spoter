@@ -1,6 +1,6 @@
 import { compareSync, hash } from "bcryptjs";
 import prisma from "./prisma";
-import { decode, sign, verify } from 'jsonwebtoken'
+import { sign, verify } from 'jsonwebtoken'
 import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from "$env/static/private";
 import { emailValidation, passwordValidation, usernameValidation } from "./Validation";
 
@@ -9,8 +9,6 @@ const createRefreshToken = (id, cAt) => sign({id, cAt}, REFRESH_TOKEN_SECRET, {e
 
 
 const computeError = async ( err ) => {
-    console.log(err)
-    console.error('fail be4')
     switch(err.code) {
         case "P2002": return {msg:`Account with that ${err.meta.target.toString()} already exists`, name:err.meta.target.toString()}
     }
@@ -90,17 +88,26 @@ export const authenticate = async({ accessToken }) => {
     } catch (err) {
         return {msg:err.message, name:err.name}
     }
-    console.log(decodedToken)
-    const session = await prisma.user.findUnique({
-        where:{username:decodedToken.username},
-        select:{id:true}
-    }).then(user => prisma.session.findFirst({
-        where:{userId:user.id},
-        orderBy:{refreshedAt:"desc"}
-    }))
+    
+    let session = undefined;
+    let user = undefined;
+
+    try {
+        session = await prisma.user.findUnique({
+            where:{username:decodedToken.username},
+            select:{id:true}
+        }).then(u => {
+                user = u       
+                return prisma.session.findFirst({
+                where:{userId:user.id},
+                orderBy:{refreshedAt:"desc"}})
+        })
+    } catch (err) {
+        return {msg: err.msg, name: err.name}
+    }   
     if(accessToken !== session.token) return {msg:"token no longer valid", name:"InvalidSessionError"}
     if(!session.valid) return {msg:"session no longer valid", name:"InvalidSessionError"}
-    return {msg:"success"}
+    return {msg:"success", name:"success", session, user}
 }
 
 export const refresh = async ({ refreshToken }) => {
@@ -139,18 +146,10 @@ export const refresh = async ({ refreshToken }) => {
     return {msg:"success", name:"success", accessToken:freshAccessToken, refreshToken:freshRefreshToken}
 }
 
-export const logout = async ({ accessToken }) => {
-    const jwtPayload = decode(accessToken)
-    console.log(jwtPayload)
-    await prisma.user.findUnique({
-        where:{username:jwtPayload.username},
-        select:{id:true}
-    })
-    .then(user => prisma.session.updateMany({
-        where:{userId:user.id},
-        data:{valid:false}
-    }))
-}
+export const logout = async ({ user }) => prisma.session.updateMany({
+    where:{userId:user.id},
+    data:{valid:false}
+})
 
 export const setTokenCookie = ({ cookies, token }) => cookies.set(
     'AccessToken', 

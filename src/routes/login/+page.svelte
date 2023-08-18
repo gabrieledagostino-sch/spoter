@@ -1,15 +1,15 @@
 <script>
-    import Button from "../../components/shared/Button.svelte";
-    import Input from "../../components/shared/Input.svelte";
+    import { onMount } from "svelte"
+    import Button from "../../components/shared/Button.svelte"
+    import Input from "../../components/shared/Input.svelte"
+  import LogoutForm from "../../components/shared/LogoutForm.svelte";
 
-    export let form;
+    export let form
+    export let data
     
     const fieldError = name => form?.error.find(v => v.name === name);
-    
-    console.log(form)
-    console.log(form?.remember ? 'on' : '')
-
 </script>
+<LogoutForm accessCookie={data.accessCookie??false} refreshCookie={data.refreshCookie??false} />
 <form 
     action="?/login"
     method="post"

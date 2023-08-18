@@ -1,42 +1,12 @@
 import { fail, redirect } from "@sveltejs/kit";
-import { setRefreshCookie, setTokenCookie } from "../../lib/Authentication";
+import { setRefreshCookie, setTokenCookie } from "$lib/Authentication";
 
 /** @type {import('./$types').PageLoad} */
-export async function load({ cookies, fetch }) {
+export async function load({ cookies }) {
     const accessCookie = cookies.get('AccessToken')
     const refreshCookie = cookies.get('RefreshToken')
-    let response = await fetch('/api/auth/logout', {
-        method:"get",
-        headers:{
-            "content-type":"application/json",
-            "Authorization":accessCookie
-        }
-    })
-    const jsonResp = await response.json()
-    if(response.status === 401 && jsonResp.name==='TokenExpiredError') {
-        console.log("refresh needed")
-        const refreshResponse = await fetch('/api/auth/refresh', {
-            method:"get",
-            headers:{
-                "content-type":"application/json",
-                "Authorization":refreshCookie
-            }
-        })
-        console.log(refreshResponse.status)
-        if(refreshResponse.status === 200) {
-            const rJsonResp = await refreshResponse.json()
-            const r = await fetch('/api/auth/logout', {
-                method:"get",
-                headers:{
-                    "content-type":"application/json",
-                    "Authorization":`Bearer ${rJsonResp.accessToken}`
-                }
-            })
-        }
-    }
-    cookies.delete('AccessToken')
-    cookies.delete('RefreshToken')
-    return {}
+    
+    return {accessCookie, refreshCookie}
 }
 
 /** @type {import("./$types").Actions} */
@@ -63,10 +33,14 @@ export const actions = {
         const jsonResp = await response.json()
         if(response.status === 400)  return fail(400, {error:[jsonResp], username, remember})
         
-        console.log(jsonResp.refreshToken)
         setTokenCookie({ cookies, token:jsonResp.token })
         setRefreshCookie({ cookies, token:jsonResp.refreshToken }, remember)
         
         throw redirect(303, '/profile')
+    },
+    deleteCookies: async ({ cookies })=>{
+        cookies.delete('AccessToken')
+        cookies.delete('RefreshToken')
+        throw redirect(303, '/login')
     }
 }

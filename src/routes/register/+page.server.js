@@ -2,11 +2,11 @@ import { fail, redirect } from "@sveltejs/kit"
 import { emailValidation, passwordValidation, usernameValidation } from "../../lib/Validation"
 
 /** @type {import("./$types").PageLoad} */
-export async function load({ cookies, fetch }) {
-    fetch('/api/auth/logout')
-    cookies.delete('AccessToken')
-    cookies.delete('RefreshToken')
-    return {}
+export async function load({ cookies }) {
+    const accessCookie = cookies.get('AccessToken')
+    const refreshCookie = cookies.get('RefreshToken')
+    
+    return {accessCookie, refreshCookie}
 }
 
 /** @type {import("./$types").Actions} */
@@ -44,5 +44,10 @@ export const actions = {
         if(response.status === 400)  return fail(400, {error:[jsonResp], username, email})
         
         throw redirect(303, '/login')
+    },
+    deleteCookies: async ({ cookies })=>{
+        cookies.delete('AccessToken')
+        cookies.delete('RefreshToken')
+        throw redirect(303, '/register')
     }
 }

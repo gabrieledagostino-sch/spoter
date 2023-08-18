@@ -29,6 +29,7 @@ model Discovery {
 
 model Session {
   id String @id
+  spotifyToken String?
   token String
   refreshToken String
   createdAt DateTime @default(now())

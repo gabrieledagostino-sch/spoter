@@ -2,6 +2,7 @@ import { decode } from 'jsonwebtoken'
 import prisma from './lib/prisma';
 
 export const handle = async ({event, resolve}) => {
+    // console.log(context)
     if(event.url.pathname.startsWith('/api')) {
         console.log(`HOOK : API`)
         return await resolve(event)
