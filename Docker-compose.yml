@@ -1,12 +1,48 @@
-version: '3.7'
+version: '3.9'
 
 services:
-  client:
-    build: .
+  #DB service, runs postgress
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    hostname: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB : spoter
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - spoter-db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+  #Prisma studio service
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    depends_on:
+      - postgres
+    ports:
+      - "5555:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_LISTEN_PORT: 80
+    volumes:
+      - spoter-pgadmin-data:/var/lib/pgadmin
+    restart: unless-stopped
+  #web server container
+  webServer:
+    stdin_open: true
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: spoter-ws
     container_name: spoter-ws
     ports:
       - 5173:5173
+    depends_on:
+      - postgres
     volumes:
       - ./src:/home/node/spoter/src
       - ./static:/home/node/spoter/static
@@ -19,3 +55,8 @@ services:
       - ./tailwind.config.cjs:/home/node/spoter/tailwind.config.cjs
     tty: true
     command: npm run dev
+    restart: unless-stopped
+
+volumes:
+  spoter-db-data:
+  spoter-pgadmin-data:

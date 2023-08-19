@@ -6,55 +6,49 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model Tracks {
-  id Int
-  discovery Discovery @relation(fields: [discoveryId], references: [id])
-  discoveryId Int
-  @@id(fields: [id, discoveryId])
+model Track {
+  id String @id
+  name String
+  artist String
+  audioUrl String
+  generes String[]
+  discoverySessionId Int
+  discoverySession DiscoverySession @relation(fields: [discoverySessionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-model Discovery {
+model DiscoverySession {
   id Int @id @default(autoincrement())
-  discoveryTipe String
-  discoveryParam String? 
   createdAt DateTime @default(now())
-  tracks Tracks[]
+  refreshedAt DateTime @updatedAt
+  userId String
   user User @relation(fields: [userId], references: [id])
-  userId Int
+  tracks Track[]
+  session Session?
 }
 
 model Session {
-  id String @id
-  spotifyToken String?
-  token String
+  id String @db.Char(16) @id
   refreshToken String
   createdAt DateTime @default(now())
   refreshedAt DateTime @updatedAt
+  userId String
   user User @relation(fields: [userId], references: [id])
-  userId Int
-  valid Boolean @default(true)
-}
-
-model SpotifyInfo {
-  user User @relation(fields: [userId], references: [id])
-  userId Int @id
-  authorizationGiven Boolean @default(false)
-  token String
-  refreshToken String
+  currentDiscovery DiscoverySession? @relation(fields: [currentDiscoveryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  currentDiscoveryId Int? @unique
+  isValid Boolean @default(true)
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  username String? @unique
-  email String? @unique
-  password String?
-  spotifyCreds SpotifyInfo?
-  sessions Session[]
-  discoveries Discovery[]
+  id String @id
+  username String
+  profilePicUrl String?
   createdAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  nPlaylists Int @default(0)
+  nTracke Int @default(0)
+  discSessions DiscoverySession[]
+  seessions Session[]
 }

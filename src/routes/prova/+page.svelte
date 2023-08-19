@@ -1,10 +1,13 @@
 <script>
-  import Search from "../../components/discoverSong/Search.svelte";
+  import LoginButton from '../../components/shared/LoginButton.svelte'
 
-  export let data;
-  console.log(data.firstSong)
+  export let data
 
+  const clickHandler = (event) => {
+    console.log('clicked')
+  }
 </script>
+
 <div
     class="
         flex
@@ -16,14 +19,5 @@
         gap-10
     "
 >
-
-    <p>
-        {
-            data.firstSong.preview_url
-        }
-    </p>
-    <audio controls >
-        <source src={data.firstSong.preview_url} />
-
-    </audio>
+  <button on:click={clickHandler} >send Request</button>
 </div>

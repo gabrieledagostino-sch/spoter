@@ -1,29 +1,55 @@
+import querystring from "querystring";
 import { SP_CLIENT_ID, SP_SECRET_KEY } from "$env/static/private";
+import { URLSearchParams } from "url";
+import { TextEncoder } from "util";
 
-export const generateAnonymousToken = async ({ fetch }) => fetch ('https://accounts.spotify.com/api/token', {
-    method:"post",
-    body:`grant_type=client_credentials&client_id=${SP_CLIENT_ID}&client_secret=${SP_SECRET_KEY}`,
-    headers:{
-        "Content-Type":"application/x-www-form-urlencoded"
-    }
+const authorizeURL = 'https://accounts.spotify.com/authorize?'
+const accessTokenURL = 'https://accounts.spotify.com/api/token'
+const userInfoURL = 'https://api.spotify.com/v1/me'
+const callBackURL = 'https://localhost:5173/api/spotify/callback'
+const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+
+export const RequestAuth = (
+    state
+) => authorizeURL + new URLSearchParams({
+    client_id:SP_CLIENT_ID,
+    response_type:'code',
+    redirect_uri:callBackURL,
+    state,
+}).toString()
+
+export const requestAccessToken = async (
+    token, 
+    fetch
+) => fetch(
+    accessTokenURL, {
+        method:"post",
+        headers:{
+            "Content-Type":"application/x-www-form-urlencoded",
+            "Authorization":`Basic ${Buffer.from(`${SP_CLIENT_ID}:${SP_SECRET_KEY}`).toString('base64')}`
+        },
+        body:new URLSearchParams({
+            grant_type:"authorization_code",
+            code:token,
+            redirect_uri:callBackURL
+        }).toString(),
 })
-.then(async (result) => {
-    if(result.status !== 200) throw new Error(await result.text(), {cause:result.statusText})
-    return result.json()
-}).catch((err) => {
-    return {msg:err.message, name:err.name}
+.then(async resp => {
+    if(resp.status !== 200) return { statusText:resp.statusText, status:resp.status, message:(await resp.json()).error.message}
+    return resp.json()
 })
 
-export const search = async ({query, type, token, fetch}) => {
-    console.log(token)
-    return fetch(`https://api.spotify.com/v1/search?q=${query}&type=${type}&market=IT&include_external=audio`, {
+export const getUserInfo = async (
+    token,
+    fetch
+) => fetch(
+    userInfoURL,{
         method:"get",
         headers:{
-            "Authorization":`Bearer ${token}`,
-    }})
-    .then(async (result) => {
-        if(result.status !== 200) throw new Error(await result.text(), {cause:result.statusText})
-        return result.json()})
-    .then(result => result.tracks.items.sort((a,b) => b.popularity - a.popularity))
-    .catch((err) => {return {msg:err.message, name:err.cause}})
-}
+            "Authorization":`Bearer ${token}`
+        }
+})
+.then(async resp => {
+    if(resp.status !== 200) return { status:resp.status, statusText:resp.statusText, message:(await resp.json()).error.message }
+    return resp.json()
+})
