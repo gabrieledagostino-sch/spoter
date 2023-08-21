@@ -48,7 +48,8 @@ model User {
   profilePicUrl String?
   createdAt DateTime @default(now())
   nPlaylists Int @default(0)
+  nExports Int @default(0)
   nTracke Int @default(0)
   discSessions DiscoverySession[]
-  seessions Session[]
+  sessions Session[]
 }

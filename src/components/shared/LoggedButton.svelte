@@ -6,18 +6,7 @@
     export let profileImg = "images/user-128.svg"
     export let dialog = false;
     
-    let choices = [
-        {
-            element:"<span>scelta1</span>", 
-            isSvelte:false,
-            effect:function(){
-                console.log("scelta1")
-        }},{
-            element:"<span>scelta2</span>", 
-            isSvelte:false,
-            effect:function(){
-                console.log("scelta2")
-    }},]
+    export let choices = []
 </script>
 
 {#if dialog}

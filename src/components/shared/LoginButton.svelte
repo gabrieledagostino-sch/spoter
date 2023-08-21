@@ -4,16 +4,18 @@
 
 </script>
 
-<Button kind="primary">
-    <div
-        class="
-            flex
-            items-center
-            justify-center
-            gap-2
-        "
-    >
-        <span>Log in with <b>Spotify</b></span>
-        <i class="fab fa-spotify" />
-    </div>
-</Button>
+<form action="api/spotify/login" method="get">
+    <Button kind="primary" submit={true}>
+        <div
+            class="
+                flex
+                items-center
+                justify-center
+                gap-2
+            "
+        >
+            <span>Log in with <b>Spotify</b></span>
+            <i class="fab fa-spotify" />
+        </div>
+    </Button>
+</form>

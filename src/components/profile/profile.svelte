@@ -3,13 +3,13 @@
 
     export let username = 'Prova';
     export let img = "https://picsum.photos/id/684/600/400";
+    export let nTracke = 0
+    export let nInterests = 0
+    export let nExports = 0
+    export let nPlaylists = 0
     
     const dispatch = createEventDispatcher();
-    // const mdUpdate = () => md = window?.matchMedia("(min-width: 768px)").matches;
-    // let md = true;
 </script>
-
-<!-- <svelte:window on:resize={_ => mdUpdate()} /> -->
 
 <div class="
         h-full
@@ -53,19 +53,19 @@
             <ul class="userInfo text-smallText text-complementaryFG bg-bgColor rounded-2xl p-4">
                 <li>
                     <span>Canzoni scoperte</span>
-                    <span>n</span>
+                    <span>{nTracke}</span>
                 </li>
                 <li>
                     <span>Canzoni interessanti</span>
-                    <span>n</span>
+                    <span>{nInterests}</span>
                 </li>
                 <li>
                     <span>Canzoni importate su spotify</span>
-                    <span>n</span>
+                    <span>{nExports}</span>
                 </li>
                 <li>
                     <span>Playlist create</span>
-                    <span>n</span>
+                    <span>{nPlaylists}</span>
                 </li>
             </ul>
         </div>

@@ -3,6 +3,9 @@
   import ProfileButton from "../shared/ProfileButton.svelte";
   import Title from "./Title.svelte";
 
+    export let logged
+    export let username
+    export let choices
 </script>
 <header 
     class="
@@ -29,6 +32,6 @@
             mr-4
         "
     >
-        <ProfileButton dialog="true" />
+        <ProfileButton dialog="true" {username} {logged} {choices} />
     </div>
 </header>

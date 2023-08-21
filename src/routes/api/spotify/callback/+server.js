@@ -1,6 +1,8 @@
 import { json, redirect } from "@sveltejs/kit";
 import { getUserInfo, requestAccessToken } from "$lib/Spotify";
 import prisma from "$lib/prisma";
+import { sign } from "jsonwebtoken";
+import { COOKIE_SIGNER } from "$env/static/private";
 
 /** @type {import("./$types").RequestHandler} */
 export async function GET({ url, cookies, fetch }) {
@@ -19,7 +21,7 @@ export async function GET({ url, cookies, fetch }) {
 
     //crf attack protection
     const storedState = cookies.get('TempID')
-    cookies.delete('TempId')
+    cookies.delete('TempID', {path:'/'})
 
     if(storedState !== state) return json({ // FAIL
         message:"Requests ID is unknown",
@@ -52,7 +54,6 @@ export async function GET({ url, cookies, fetch }) {
         where:{ id }
     })
     
-    console.log(user)
     const promises = []
 
     if(user === null) {
@@ -68,25 +69,42 @@ export async function GET({ url, cookies, fetch }) {
             where:{id},
             data:{
                 username:display_name,
-                profilePicUrl:images[0].url ?? null
+                profilePicUrl:images[0]?.url ?? null
             }
         }))
     }
-
+    console.log(`secret key : ${COOKIE_SIGNER}`)
     promises.push(prisma.session.updateMany({
         where:{userId:id},
         data:{isValid:false}
     })
-    .then(_ => prisma.session.create({
+    .then(_ => prisma.session.create({ //should check if the ID is already in use, and replace if the session is not valid
         data:{
             refreshToken:refresh_token,
             userId:id,
+            id:state,
         }
-    })))
+    }))
+    .then(_ => cookies.set(
+        'SessionId', 
+        sign(
+            {
+                id:state,
+                userId:id,
+            }, 
+            COOKIE_SIGNER, 
+            {expiresIn:"7 days"}
+        ), {
+            httpOnly:true,
+            secure:true,
+            path:'/',
+            maxAge: 7 * 24 * 60 * 60,
+        }
+    )))
 
     await Promise.all(promises)
 
-    cookies.set('AccesToken', access_token, {
+    cookies.set('AccessToken', access_token, {
         httpOnly:true,
         secure:true,
         path:'/',

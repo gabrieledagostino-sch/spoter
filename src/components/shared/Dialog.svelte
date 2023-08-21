@@ -58,6 +58,7 @@
 
                 shadow-black
                 shadow-md
+                z-20
             " 
             transition:slide={{duration:200}}
             bind:this={a}
@@ -97,7 +98,7 @@
                     on:click={choice.effect}
                 >
                     {#if choice.isSvelte}
-                        <svelte:component this={choice.element} />
+                        <svelte:component this={choice.element} {...$$restProps}/>
                     {:else}
                         {@html choice.element}
                     {/if}

@@ -1,13 +1,13 @@
 <script>
-  import Select2 from "../shared/Select2.svelte";
-  import ListSong from "./ListSong.svelte";
+    import Select2 from "../shared/Select2.svelte";
+    import ListSong from "./ListSong.svelte";
 
     let options = ['Latest', 'Session', 'Artist', 'Genre']
     let label = 'Order by:';
     let choice;
     let chosen = [];
 
-    let songs = [...Array(40).keys()];
+    export let songs = [...Array(40).keys()];
 
     $: nChose = chosen.reduce((acc, vl) => vl? acc+1: acc,  0);
     $: console.log(nChose);

@@ -2,25 +2,22 @@
     import Dialog from "../shared/Dialog.svelte";
     import Title from "./Title.svelte";
     import ProfileButton from "../shared/ProfileButton.svelte";
+
+    export let username
+    export let logged
     
-    let choices = [
+    export let choices = [
         {
             element:ProfileButton,
             effect: undefined,
             isSvelte:true,
-        },
-        {
-            element:"<span>scelta1</span>", 
-            isSvelte:false,
-            effect:function(){
-                console.log("scelta1")
-        }},
-        {
-            isSvelte:false,
-            element:"<span>scelta2</span>", 
-            effect:function(){
-                console.log("scelta2")
-    }},]
+        }
+    ]
+    $: buttonChoices = [{
+            element:ProfileButton,
+            effect: undefined,
+            isSvelte:true,
+        }, ...choices] 
 </script>
 <header
     class="
@@ -50,7 +47,7 @@
             translate-y-3/4
         "
     >
-        <Dialog {choices} direction={'left'}>
+        <Dialog choices={buttonChoices} {username} {logged} direction={'left'}>
             <i class="
                 fa-solid 
                 fa-bars

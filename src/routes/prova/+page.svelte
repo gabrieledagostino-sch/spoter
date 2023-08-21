@@ -1,10 +1,12 @@
 <script>
   import LoginButton from '../../components/shared/LoginButton.svelte'
+  import { goto } from "$app/navigation";
 
   export let data
+  console.log(data)
 
   const clickHandler = (event) => {
-    console.log('clicked')
+    goto('/api/spotify/login')
   }
 </script>
 
@@ -19,5 +21,9 @@
         gap-10
     "
 >
-  <button on:click={clickHandler} >send Request</button>
+  <div>
+    {#each Object.entries(data.user) as entry}
+      <div>{entry}</div>
+    {/each}
+  </div>
 </div>
