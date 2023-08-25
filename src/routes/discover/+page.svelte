@@ -2,6 +2,8 @@
   import { fade } from "svelte/transition";
     import Selector from "../../components/shared/Selector.svelte";
   import Button from "../../components/shared/Button.svelte";
+  import Search from "../../components/discoverSong/Search.svelte";
+  import { onMount } from "svelte";
 
     let choices = [
         'Similar To',
@@ -10,8 +12,12 @@
         'Random',
     ]
 
-    let value = 0;
+    let value = 1;
+    let song;
+    let query;
 
+    onMount(() => value=0)
+    $: selected = song?.id
 </script>
 <div class="
         box-border
@@ -41,6 +47,15 @@
     >
         <Selector {choices} bind:currchoice={value}/>
     </div>
+    <div class="w-1/2">
+        {#if value!=3}
+            <span class="" in:fade={{duration:200, delay:15}} out:fade={{duration:200}}>
+                <Search bind:type={choices[value]} bind:selected={song} bind:query />
+            </span>
+        {:else}
+            <div in:fade={{delay:215}} ></div>
+        {/if}
+    </div>
     <form
         class="
             flex-1
@@ -49,14 +64,11 @@
             justify-evenly
             items-center
         "
+        action="/prova"
+        method="get"
     >
-        {#if value!=3}
-            <span class="" in:fade={{duration:200, delay:15}} out:fade={{duration:200}}>
-                <input type="text" class=""> <i class="fas fa-search" />
-            </span>
-        {:else}
-            <div in:fade={{delay:215}} ></div>
-        {/if}
-        <Button kind="primary" >Discover</Button>
+        <input type="hidden" name="song" bind:value={selected} />
+        <input type="hidden" name="query" bind:value={query} />
+        <Button kind="primary" submit={true} >Discover</Button>
     </form>
 </div>

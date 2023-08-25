@@ -25,6 +25,7 @@ const config = {
       backgroundImage : {
         "glow":"radial-gradient(ellipse at center, white 0%, transparent 70%);",
         "select":"linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.5) 50%, rgba(255,255,255,0) 100%)",
+        "select-black":"linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.3) 50%, rgba(0,0,0,0) 100%)",
       }
     },
   },

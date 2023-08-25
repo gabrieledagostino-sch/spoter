@@ -10,7 +10,7 @@
 </script>
 
 {#if dialog}
-<Dialog {choices}>
+<Dialog {choices} direction={'center'}>
     <Button kind={"secondary"} cursor={"default"} >
         <div
             class="

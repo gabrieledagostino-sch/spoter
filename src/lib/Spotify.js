@@ -4,8 +4,14 @@ import { URLSearchParams } from "url";
 const authorizeURL = 'https://accounts.spotify.com/authorize?'
 const accessTokenURL = 'https://accounts.spotify.com/api/token'
 const userInfoURL = 'https://api.spotify.com/v1/me'
+const searchURL = 'https://api.spotify.com/v1/search'
 const refreshURL = "https://accounts.spotify.com/api/token"
 const callBackURL = 'https://localhost:5173/api/spotify/callback'
+
+
+/* 
+    Authentication requests
+*/
 
 export const RequestAuth = (
     state
@@ -14,6 +20,7 @@ export const RequestAuth = (
     response_type:'code',
     redirect_uri:callBackURL,
     state,
+    scope:'user-read-private user-read-email'
 }).toString()
 
 export const requestAccessToken = async (
@@ -32,9 +39,10 @@ export const requestAccessToken = async (
             redirect_uri:callBackURL
         }).toString(),
 })
-.then(async resp => {
-    if(resp.status !== 200) return { statusText:resp.statusText, status:resp.status, message:(await resp.json()).error.message}
-    return resp.json()
+.then(resp => resp.json())
+.then(json => {
+    if(json.error) throw {status:json.error.status, message:json.error.message}
+    return json
 })
 
 export const getUserInfo = async (
@@ -47,13 +55,15 @@ export const getUserInfo = async (
             "Authorization":`Bearer ${token}`
         }
 })
-.then(async resp => {
-    if(resp.status !== 200) return { status:resp.status, statusText:resp.statusText, message:(await resp.json()).error.message }
-    return resp.json()
+.then(resp => resp.json())
+.then(json => {
+    if(json.error) throw {status:json.error.status, message:json.error.message}
+    return json
 })
 
 export const refreshToken = async (
-    token
+    token,
+    fetch
 ) => fetch(
     refreshURL, {
     method:"post",
@@ -66,7 +76,87 @@ export const refreshToken = async (
         "Authorization":`Basic ${Buffer.from(`${SP_CLIENT_ID}:${SP_SECRET_KEY}`).toString('base64')}`
     }
 })
-.then(async resp => {
-    if(resp.status !== 200) return { status:resp.status, statusText:resp.statusText, message:(await resp.json()).error.message }
-    return resp.json()
+.then(resp => resp.json())
+.then(json => {
+    if(json.error) throw {status:json.error.status, message:json.error.message}
+    return json
 })
+
+
+/*
+    Post auth request
+*/
+
+const normalRequest = async (
+    url,
+    req,
+    fetch
+) => {
+    let refreshed = false;
+    let newAccess;
+    return fetch(url, req)
+    .then(resp => resp.json())
+    .then(json => {
+        if(json.error) throw {status:json.error.status, message:json.error.message}
+        return json
+    })
+    .catch(err => {
+        if(err.status === 401) {
+            return fetch('/api/spotify/refresh')
+            .then(resp => resp.json())
+            .then(json => {
+                newAccess = json.access_token;
+                req.headers.Authorization = `Bearer ${newAccess}`
+                return fetch(url, req)
+            })
+            .then(resp => resp.json())
+            .then(json => {
+                if(json.error) throw {status:json.error.status, message:json.error.message}
+                return {access_token:newAccess,...json}
+            })
+        }
+        throw err;
+    })
+}
+
+export const searchTrack = (
+    token,
+    fetch,
+    toSearch,
+    market,
+    limit=-1,
+    offset=-1
+) => {
+    return normalRequest(
+        searchURL+"?"+new URLSearchParams({
+            q:toSearch,
+            type:['track'],
+            market,
+            limit:limit===-1?20:limit,
+            offset:offset===-1?0:offset,
+            include_external:"audio"
+        }).toString(),
+        {
+            method:"get",
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        },
+        fetch
+    ).then(json => {
+        let tracks = [];
+        for(let i = 0; i < json.tracks.items.length; ++i) {
+            const el = json.tracks.items[i]
+            if(el.preview_url)
+                tracks.push({
+                    id:el.id,
+                    name:el.name,
+                    album:el.album.name,
+                    artists:el.artists.map(v => v.name),
+                    preview:el.preview_url,
+                    image:el.album.images[0].url
+                })
+        }
+        return {tracks, access_token:json.access_token}
+    })
+}

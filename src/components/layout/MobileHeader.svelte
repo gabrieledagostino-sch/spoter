@@ -16,6 +16,7 @@
     $: buttonChoices = [{
             element:ProfileButton,
             effect: undefined,
+            props: { username, logged },
             isSvelte:true,
         }, ...choices] 
 </script>
@@ -42,16 +43,19 @@
     <div 
         class="menu
             absolute
+            min-h-full
             right-0
             top-0
-            translate-y-3/4
+            aspect-square
+            flex
+            justify-center
+            items-center
         "
     >
-        <Dialog choices={buttonChoices} {username} {logged} direction={'left'}>
+        <Dialog choices={buttonChoices} direction={'left'}>
             <i class="
                 fa-solid 
                 fa-bars
-                mx-4
             "></i>
         </Dialog>    
     </div>

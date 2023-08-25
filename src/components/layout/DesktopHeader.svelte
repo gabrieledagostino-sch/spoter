@@ -29,7 +29,6 @@
         class="
             flex
             justify-end
-            mr-4
         "
     >
         <ProfileButton dialog="true" {username} {logged} {choices} />

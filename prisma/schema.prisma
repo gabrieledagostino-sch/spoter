@@ -45,6 +45,7 @@ model Session {
 model User {
   id String @id
   username String
+  country String
   profilePicUrl String?
   createdAt DateTime @default(now())
   nPlaylists Int @default(0)

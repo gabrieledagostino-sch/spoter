@@ -1,5 +1,5 @@
 import { json, redirect } from "@sveltejs/kit";
-import { getUserInfo, requestAccessToken } from "$lib/Spotify";
+import { getUserInfo, requestAccessToken } from "../../../../lib/Spotify";
 import prisma from "$lib/prisma";
 import { sign } from "jsonwebtoken";
 import { COOKIE_SIGNER } from "$env/static/private";
@@ -10,13 +10,12 @@ export async function GET({ url, cookies, fetch }) {
     const state = url.searchParams.get('state')
     const code = url.searchParams.get('code')
     const error = url.searchParams.get('error')
-    
+
     //checks if it not a random navigation
     if(!state) throw redirect(307, '/')
     //error from spotify authorization
     if(error) return json({ // FAIL
-        message:"Login Failer",
-        name:error
+        message:"Login Failed"
     }, {status:401})
 
     //crf attack protection
@@ -24,23 +23,23 @@ export async function GET({ url, cookies, fetch }) {
     cookies.delete('TempID', {path:'/'})
 
     if(storedState !== state) return json({ // FAIL
-        message:"Requests ID is unknown",
-        name:"Unknown Request"
+        message:"Requests ID is unknown"
     }, {status:401})
 
     //get tokens
-    const authTokResp = await requestAccessToken(code, fetch);
+    const authTokResp = await requestAccessToken(code, fetch).catch(err => err)
+
     
     if(authTokResp.status) return json({ // FAIL
         message:authTokResp.message,
-        name:authTokResp.statusText,
     }, {
         status:authTokResp.status
     })
+
     const { access_token, refresh_token } = authTokResp
 
     //get user info to update/create them in website db
-    const userInfoResp = await getUserInfo(access_token, fetch)
+    const userInfoResp = await getUserInfo(access_token, fetch).catch(err => err)
     
     if(userInfoResp.status) return json({ // FAIL
         message:userInfoResp.message,
@@ -48,7 +47,9 @@ export async function GET({ url, cookies, fetch }) {
     }, {
         status:userInfoResp.status
     })
-    const { id, display_name, images } = userInfoResp
+    console.log(userInfoResp);
+    const { id, display_name, images, country } = userInfoResp
+    console.log(country);
 
     let user = await prisma.user.findUnique({
         where:{ id }
@@ -61,7 +62,8 @@ export async function GET({ url, cookies, fetch }) {
             data:{
                 id,
                 username:display_name,
-                profilePicUrl:images[0]?.url ?? null
+                profilePicUrl:images[0]?.url ?? null,
+                country
             }
         })
     } else {
@@ -69,11 +71,12 @@ export async function GET({ url, cookies, fetch }) {
             where:{id},
             data:{
                 username:display_name,
+                country,
                 profilePicUrl:images[0]?.url ?? null
             }
         }))
     }
-    console.log(`secret key : ${COOKIE_SIGNER}`)
+    
     promises.push(prisma.session.updateMany({
         where:{userId:id},
         data:{isValid:false}
