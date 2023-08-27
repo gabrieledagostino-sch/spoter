@@ -5,7 +5,7 @@ import prisma from '$lib/prisma';
 
 /** @type {import("./$types").RequestHandler} */
 export async function GET({ cookies }) {
-    const sessId = cookies.get('SessionId')
+    const sessId = cookies.get('SessionId', {path:'/'})
     const { id, userId } = jwt.verify(sessId, COOKIE_SIGNER, {
         ignoreExpiration:true,
     })

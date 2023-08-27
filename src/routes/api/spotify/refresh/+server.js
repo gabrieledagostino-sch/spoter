@@ -1,6 +1,6 @@
 import { json } from "@sveltejs/kit"
-import { refreshToken } from "../../../../lib/Spotify"
-import prisma from "../../../../lib/prisma"
+import { refreshToken } from "$lib/Spotify"
+import prisma from "$lib/prisma"
 import jwt from "jsonwebtoken"
 
 /** @type {import("./$types").RequestHandler} */

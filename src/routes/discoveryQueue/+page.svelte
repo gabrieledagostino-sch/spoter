@@ -4,21 +4,65 @@
     import { animate } from "$lib/cardDragging.js";
     import { fly } from "svelte/transition";
 
-    let cards = [...Array(40).keys()].map((_,i) => i+1);
-    let last = 1;
+    export let data;
 
+    const MIN_CARDS = 5;
+
+    let cards = data?.recommendations??[];
+    let next = data?.next;
+    let last = 1;
+    let audio;
+    let fetching = true;
+
+    $: {
+        console.log('fetching')
+        if(!fetching && cards.length < MIN_CARDS && next)
+            getMore().finally(() => fetching = false)
+    }
+    
     $: active = cards[0] ?? undefined;
     $: second = cards[1] ?? undefined;
     $: third  = cards[2] ?? undefined;
+    
 
-    const swiped = async(e) => {
+    const swiped = async(e, card) => {
         last = e.detail==='left'?-1:1;
-        await Promise.resolve().then(() => cards = cards.filter(v => v !== active))
+        audio.pause()
+        Promise.resolve()
+        .then(() => cards = cards.filter(v => v !== active))
+        .then(() => fetch('/api/discover/interest', {
+            method:"post",
+            body:JSON.stringify({direction:e.detail, id:card.id})
+        }))
+        .then(r => r.json()).then(v => console.log(v))
     }
 
+    const getMore = async () => {
+        console.log(cards.length)
+        console.log("fetching ..." + next)
+        fetch(next).then(r => r.json()).then(j => {
+            cards = [...cards, ...j?.recommendations]
+            next = j.next
+            console.log(... cards.map(v => v.name+'\n'))
+        })
+    }   
+    
+    const playHandle = (url) => {
+        audio.pause()
+        audio.setAttribute('src', url);
+        audio.loop = true;
+        audio.load()
+        audio.play()
+    }
+    const stopHandle = () => {
+        audio.pause()
+    }
     onMount(() => {
         animate('.active');
+        audio=new Audio()
+        fetching = false
     })
+
 </script>
 
 <div 
@@ -29,7 +73,7 @@
         overflow-hidden
     "
 >
-    {#each cards as card (card)}
+    {#each cards as card (card.id)}
         <div 
             class="card
                 absolute
@@ -47,11 +91,15 @@
             class:second={second === card}
             class:third={third === card}
 
-            on:swiped={swiped}
+            on:swiped={(e) => swiped(e, card)}
             out:fly={{x:last*200, y:-100}}
 
         >
-            <Card  on:play={_ => console.log(`played ${card}`)} id={card} name={card} artist={card} addInfo="LORE DELLA CANZONE"/>
+            <Card on:pause={stopHandle} on:play={() => playHandle(card.preview)} name={card.name} artist={card.artists.join(", ")} img={card.image} addInfo={card.album}/>
+        </div>
+    {:else}
+        <div class="flex-1 text-complementaryFG">
+            No more suggestions, try with another query :)
         </div>
     {/each}
 </div>

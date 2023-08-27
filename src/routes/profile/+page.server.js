@@ -1,29 +1,35 @@
 // import prisma from "$lib/prisma";
 
-import prisma from "../../lib/prisma";
+import { getTrack } from "$lib/Spotify";
+import prisma from "$lib/prisma";
 
 /** @type {import("./$types").PageServerLoad} */
-export async function load({ locals }) {
+export async function load({ locals, cookies, fetch }) {
     const user = locals.user;
+    let token = cookies.get('AccessToken', {path:'/'})
     const tracks = await prisma.track.findMany({
         where:{
-            discoverySession:{
-                user:{
-                    id:user.id
-                }
+            discovery:{
+                userId:user.id
             }
         },
         distinct:['id']
     })
-    console.log(tracks)
+
+    let songs = tracks.map(el => getTrack(token, fetch, el.id, user.country).then(el => {
+        const {access_token, ...track} = el
+        if(access_token) token = access_token
+        return track
+    }))
+    
     return {
-        tracks,
+        songs,
         user:{
             username:user.username,
             profilePicUrl : user.profilePicUrl,
             nPlaylists : user.nPlaylists,
             nTracke : user.nTracke,
-            nInterests: tracks.length
+            nInterests: songs.length
         }
     }
 }

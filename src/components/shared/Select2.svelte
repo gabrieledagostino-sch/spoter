@@ -1,6 +1,6 @@
 <script>
     import { slide } from "svelte/transition";
-    import { clickOutside } from "../../lib/clickOutside";
+    import { clickOutside } from "$lib/clickOutside";
     import { createEventDispatcher } from "svelte";
 
     export let options = [];

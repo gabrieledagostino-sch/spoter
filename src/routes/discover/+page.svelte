@@ -15,9 +15,10 @@
     let value = 1;
     let song;
     let query;
+    let resetSearch;
 
     onMount(() => value=0)
-    $: selected = song?.id
+    $: selected = song?.id??song
 </script>
 <div class="
         box-border
@@ -45,12 +46,12 @@
             w-3/4
         "
     >
-        <Selector {choices} bind:currchoice={value}/>
+        <Selector {choices} bind:currchoice={value} on:change={()=>{query="";resetSearch()}} />
     </div>
     <div class="w-1/2">
         {#if value!=3}
             <span class="" in:fade={{duration:200, delay:15}} out:fade={{duration:200}}>
-                <Search bind:type={choices[value]} bind:selected={song} bind:query />
+                <Search bind:reset={resetSearch} bind:type={choices[value]} bind:selected={song} bind:query />
             </span>
         {:else}
             <div in:fade={{delay:215}} ></div>
@@ -64,11 +65,12 @@
             justify-evenly
             items-center
         "
-        action="/prova"
+        action="/discoveryQueue"
         method="get"
     >
-        <input type="hidden" name="song" bind:value={selected} />
+        <input type="hidden" name="id" bind:value={selected} />
         <input type="hidden" name="query" bind:value={query} />
+        <input type="hidden" name="type" bind:value={choices[value]} />
         <Button kind="primary" submit={true} >Discover</Button>
     </form>
 </div>

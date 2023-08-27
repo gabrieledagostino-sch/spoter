@@ -11,19 +11,18 @@ datasource db {
 }
 
 model Track {
-  id String @id
-  name String
-  artist String
-  audioUrl String
-  generes String[]
-  discoverySessionId Int
-  discoverySession DiscoverySession @relation(fields: [discoverySessionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id String
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  discovery Discovery? @relation(fields: [discoveryId], references: [id])
+  discoveryId Int?
+  @@id([id, userId])
 }
 
-model DiscoverySession {
+model Discovery {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  refreshedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt
   userId String
   user User @relation(fields: [userId], references: [id])
   tracks Track[]
@@ -37,9 +36,9 @@ model Session {
   refreshedAt DateTime @updatedAt
   userId String
   user User @relation(fields: [userId], references: [id])
-  currentDiscovery DiscoverySession? @relation(fields: [currentDiscoveryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  currentDiscoveryId Int? @unique
   isValid Boolean @default(true)
+  discoveryId Int? @unique
+  currDiscovery Discovery? @relation(fields: [discoveryId], references: [id])
 }
 
 model User {
@@ -51,6 +50,7 @@ model User {
   nPlaylists Int @default(0)
   nExports Int @default(0)
   nTracke Int @default(0)
-  discSessions DiscoverySession[]
   sessions Session[]
+  discovery Discovery[]
+  tracksCache Track[]
 }

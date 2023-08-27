@@ -4,8 +4,7 @@
 
     export let data
     let user = data.user
-    let tracks = data.tracks
-    console.log(user)
+    let songs = data.songs
 </script>
 
 <div 
@@ -25,7 +24,7 @@
 
     "
 >
-    <Profile username={user.username} img={user.profilePicUrl ?? undefined} nPlaylists={user.nPlaylists} nTracke={user.nTracke} />
-    <PlaylistCreation songs={tracks}/>
+    <Profile nInterests={user.nInterests} username={user.username} img={user.profilePicUrl ?? undefined} nPlaylists={user.nPlaylists} nTracke={user.nTracke} />
+    <PlaylistCreation {songs}/>
 </div>
 

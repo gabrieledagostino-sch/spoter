@@ -4,7 +4,7 @@
     
     export let text = "Esse sint non ad pariatur consequat irure veniam irure amet laboris voluptate eiusmod. Commodo eiusmod nulla exercitation incididunt esse."
     export let choosen = false;
-    export let rnum = 1;
+    export let img
 
     const dispatch = createEventDispatcher();
     let offset = tweened(0, {duration:100});
@@ -12,6 +12,7 @@
     let rotateY = tweened(0);
     let timer;
     let spanRef;
+    let playing = false;
 
     const startAutoscrollX = () => {
         rotateX.set(textWidthX - spanRef.clientWidth, {duration : speedX})
@@ -91,8 +92,8 @@
     >
         <div class="mask rounded-2xl z-10 absolute w-full h-full top-0 left-0 bg-black opacity-50"></div>
         <img 
-            src="https://picsum.photos/400?random={rnum}" 
-            alt="placeholder"
+            src={img} 
+            alt={text}
             class="
                 absolute
                 top-0
@@ -150,6 +151,20 @@
             on:keypress={e => dispatch('more', e)}
             tabindex=0
         />
+    {#if playing}
+        
+        <i 
+            class="
+                fas fa-stop
+                cursor-pointer
+                hover:bg-select
+            " 
+            role="button"
+            on:click={e => {playing=false;dispatch('pause', e)}}
+            on:keypress={e => {playing=false;dispatch('pause', e)}}
+            tabindex=0
+        />
+    {:else}
         <i 
             class="
                 fas fa-play
@@ -157,9 +172,10 @@
                 hover:bg-select
             " 
             role="button"
-            on:click={e => dispatch('play', e)}
-            on:keypress={e => dispatch('play', e)}
+            on:click={e => {playing=true;dispatch('play', e)}}
+            on:keypress={e => {playing=true;dispatch('play', e)}}
             tabindex=0
         />
+    {/if}
     </div>
 </div>

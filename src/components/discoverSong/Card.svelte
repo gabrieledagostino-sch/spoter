@@ -3,12 +3,12 @@
 
     const dispatch = createEventDispatcher();
     
-    export let id = 1;
+    export let img = 'https://picsum.photos/64'
     export let name = 'a';
     export let artist = 'a';
     export let addInfo = 'a';
-    
     let hovering = false;
+    let playing = false;
 </script>
 
 <div 
@@ -57,8 +57,8 @@
             tabindex="0"
             on:mouseenter={_ => hovering=true}
             on:mouseleave={_ => hovering=false}
-            on:click={_ => dispatch('play')}
-            on:keypress={_ => dispatch('play')}
+            on:click={_ => {dispatch(playing?'pause':'play'); playing=!playing}}
+            on:keypress={_ => {dispatch(playing?'pause':'play'); playing=!playing}}
         >
             {#if hovering}
             <div
@@ -74,7 +74,11 @@
                     h-1/5
                 "
             >
-                <i class="fas fa-play absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                {#if playing}
+                    <i class="far fa-stop-circle text-3xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i>
+                {:else}
+                     <i class="far fa-play-circle text-3xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"/>
+                {/if}
             </div>
             {/if}
             <img 
@@ -82,18 +86,18 @@
                     object-cover
                 "
                 style:opacity={1 - 0.5*hovering}
-                src="http://picsum.photos/400?random={id}" alt="randPhoto"
+                src={img} alt="{name}"
             >
         </div>
         <div class="mainInfo
             flex
             flex-col
+            w-full
             items-center
             justify-evenly
-            w-2/5
         ">
             <span class="text-[var(--fg)]">{name}</span>
-            <span class="text-[var(--complementaryFG)]">{artist}</span>
+            <span class="text-gray-400">{artist}</span>
         </div>
     </div>
     <div

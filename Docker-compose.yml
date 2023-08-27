@@ -53,7 +53,7 @@ services:
       - ./playwright.config.js:/home/node/spoter/playwright.config.js
       - ./postcss.config.cjs:/home/node/spoter/postcss.config.cjs
       - ./tailwind.config.cjs:/home/node/spoter/tailwind.config.cjs
-      - ./prisma/schema.prisma:/home/node/spoter/prisma/prisma.schema
+      - ./prisma/schema.prisma:/home/node/spoter/prisma/schema.prisma
       - ./.env:/home/node/spoter/.env
     tty: true
     command: npm run dev

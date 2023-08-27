@@ -14,3 +14,4 @@ vite.config.ts.timestamp-*
 
 /prisma/migrations/*
 /prisma/dev.db
+jsconfig.json

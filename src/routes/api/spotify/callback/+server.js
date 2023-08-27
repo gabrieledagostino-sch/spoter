@@ -1,5 +1,5 @@
 import { json, redirect } from "@sveltejs/kit";
-import { getUserInfo, requestAccessToken } from "../../../../lib/Spotify";
+import { getUserInfo, requestAccessToken } from "$lib/Spotify";
 import prisma from "$lib/prisma";
 import { sign } from "jsonwebtoken";
 import { COOKIE_SIGNER } from "$env/static/private";

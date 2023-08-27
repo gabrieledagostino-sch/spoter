@@ -1,11 +1,9 @@
-import prisma from './lib/prisma';
+import prisma from '$lib/prisma';
 import { COOKIE_SIGNER } from "$env/static/private";
 import jwt from 'jsonwebtoken'
 
 export const handle = async ({event, resolve}) => {
-    // console.log(context)
-
-    const sessId = event.cookies.get('SessionId')
+    const sessId = event.cookies.get('SessionId', {path:'/'})
     let userId;
     try {
         ({userId} = jwt.verify(sessId, COOKIE_SIGNER, {
@@ -31,7 +29,6 @@ export const handle = async ({event, resolve}) => {
         const purpose = event.request.headers.get('purpose')
         const spurpose = event.request.headers.get('sec-purpose') 
         const xmoz = event.request.headers.get('X-moz') 
-        for (const entry of event.request.headers) console.log(entry)
         if(
             purpose?.includes('prefetch') 
             || purpose?.includes('prerender')
@@ -43,9 +40,8 @@ export const handle = async ({event, resolve}) => {
         }
         return await resolve(event)
     }
-    console.log(`userid : ${userId} url : ${event.url.pathname}`)
     if(!userId && event.url.pathname !== '/') return new Response('not Logged in', {status:302, headers:{Location:'/'}}) 
-    if(userId && event.url.pathname === '/') return new Response('logged in', {status:302, headers:{Location:'/profile'}})
+    if(userId && event.url.pathname === '/') return new Response('logged in', {status:302, headers:{Location:'/discover'}})
 
     return await resolve(event)
 }

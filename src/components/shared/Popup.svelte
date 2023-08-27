@@ -1,6 +1,6 @@
 <script>
     import { createEventDispatcher } from "svelte";
-    import { clickOutside } from "../../lib/clickOutside";
+    import { clickOutside } from "$lib/clickOutside";
   import { fade, scale } from "svelte/transition";
 
     export let show = false;

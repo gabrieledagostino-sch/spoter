@@ -32,7 +32,7 @@
             items-start
         "
     >
-        <span><span>Name : </span><span>{name}</span></span>
+        <span>{name}</span>
         <span class="text-complementary"><span>Album :</span><span>{album}</span></span>
         <span class="text-complementary"><span>Artists :</span><span>{artists.join(", ")}</span></span>
     </div>

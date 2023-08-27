@@ -1,11 +1,15 @@
 <script>
 
     import Dialog from "../shared/Dialog.svelte"
-    import TrackSuggestion from "./TrackSuggestion.svelte";
-
+    import Suggestion from "./Suggestion.svelte";
+    
+    
     export let type = "Similar To";
     export let selected = null;
     export let query;
+    
+    export const reset = ()=>{choices=[],selected=null}
+
     let suggestionTimeout;
     let first;
 
@@ -20,19 +24,17 @@
             effect:null,
         }]
         suggestionTimeout = setTimeout(async ()=>{
-            choices = await fetch('/api/spotify/tracks?'+new URLSearchParams({query}).toString())
+            choices = await fetch('/api/search?'+new URLSearchParams({type, query, limit:20}).toString())
                 .then(r => r.json())
                 .then(arr => {
                     first = arr[0];
                     return arr.map(v =>({
                         isSvelte:true,
                         props:{
-                            name:v.name,
-                            artists:v.artists,
-                            album:v.album,
-                            img:v.image
+                            type,
+                            item:v
                         },
-                        element:TrackSuggestion,
+                        element:Suggestion,
                         effect:(_, stopShow)=>{
                             selected=v;
                             stopShow()
@@ -72,5 +74,7 @@
   <button type="submit" disabled={first === undefined} on:click={()=>selected=first}><i class="fas fa-search"></i></button>
 </label>
 {#if selected}
-    <TrackSuggestion name={selected.name} album={selected.album} artists={selected.artists} img={selected.image} />
+    <div>
+        <p>Selected {type=='Similar To'?'Track':type} : {selected.name??selected}</p>
+    </div>
 {/if}

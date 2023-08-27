@@ -1,4 +1,5 @@
 import { SP_CLIENT_ID, SP_SECRET_KEY } from "$env/static/private";
+import { assert, log } from "console";
 import { URLSearchParams } from "url";
 
 const authorizeURL = 'https://accounts.spotify.com/authorize?'
@@ -6,9 +7,9 @@ const accessTokenURL = 'https://accounts.spotify.com/api/token'
 const userInfoURL = 'https://api.spotify.com/v1/me'
 const searchURL = 'https://api.spotify.com/v1/search'
 const refreshURL = "https://accounts.spotify.com/api/token"
+const trackURL = 'https://api.spotify.com/v1/tracks/'
+const reccomendationsURL = 'https://api.spotify.com/v1/recommendations'
 const callBackURL = 'https://localhost:5173/api/spotify/callback'
-
-
 /* 
     Authentication requests
 */
@@ -92,10 +93,9 @@ const normalRequest = async (
     req,
     fetch
 ) => {
-    let refreshed = false;
     let newAccess;
     return fetch(url, req)
-    .then(resp => resp.json())
+    .then(async resp => resp.json())
     .then(json => {
         if(json.error) throw {status:json.error.status, message:json.error.message}
         return json
@@ -143,10 +143,116 @@ export const searchTrack = (
             }
         },
         fetch
-    ).then(json => {
+    ).then(async json => {
         let tracks = [];
         for(let i = 0; i < json.tracks.items.length; ++i) {
             const el = json.tracks.items[i]
+            if(!el.preview_url) el.preview_url = await getTrack(json.access_token??token, fetch, el.id, market).then(el => el.preview)
+            if(el.preview_url)
+                tracks.push({
+                    id:el.id,
+                    name:el.name,
+                    album:el.album.name,
+                    artists:el.artists.map(v => v.name),
+                    preview:el.preview_url,
+                    image:el.album.images[0].url
+                })
+        }
+        return {tracks, access_token:json.access_token}
+    })
+}
+
+export const searchArtist = (
+    token,
+    fetch,
+    toSearch,
+    market,
+    limit=-1,
+    offset=-1
+) => {
+    return normalRequest(
+        searchURL+"?"+new URLSearchParams({
+            q:toSearch,
+            type:['artist'],
+            market,
+            limit:limit===-1?20:limit,
+            offset:offset===-1?0:offset,
+            include_external:"audio"
+        }).toString(),
+        {
+            method:"get",
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        },
+        fetch
+    ).then(json => {
+        let artists = []
+        for (let i = 0; i < json.artists.items.length; i++) {
+            const el = json.artists.items[i];
+            artists.push({
+                id:el.id,
+                image:el.images[0]?.url??'null',
+                name:el.name,
+            })
+        }
+        return {artists, access_token:json.access_token}
+    })
+}
+
+export const getTrack = (
+    token,
+    fetch,
+    id,
+    country
+) => {
+    return normalRequest(
+        trackURL+id+"?"+new URLSearchParams({market:country}).toString(),
+        {method:"get", headers:{Authorization:`Bearer ${token}`}},
+        fetch
+    ).then(el => ({
+        id:el.id,
+        name:el.name,
+        album:el.album.name,
+        artists:el.artists.map(v => v.name),
+        preview:el.preview_url,
+        image:el.album.images[0].url,
+        genres:el.genres,
+        access_token:el.access_token
+    }))
+}
+
+export const getRecommendations = (
+    artists_IDS,
+    genres_IDS,
+    tracks_IDS,
+    market,
+    token,
+    fetch,
+    limit=20
+    ) => {
+        console.log(artists_IDS, genres_IDS, tracks_IDS)
+        console.log("length", artists_IDS.length , genres_IDS.length , tracks_IDS.length)
+    assert(artists_IDS.length + genres_IDS.length + tracks_IDS.length <= 5)
+    return normalRequest(
+        reccomendationsURL+"?"+new URLSearchParams({
+            limit,
+            market,
+            seed_tracks:tracks_IDS,
+            seed_artists:artists_IDS,
+            seed_genres:genres_IDS
+        }).toString(),
+        {
+            method:"get",
+            headers:{
+                Authorization:`Bearer ${token}`
+            }   
+        },
+        fetch
+    ).then(json => {
+        let tracks= [];
+        for(let i = 0; i < json.tracks.length; ++i) {
+            const el = json.tracks[i]
             if(el.preview_url)
                 tracks.push({
                     id:el.id,
