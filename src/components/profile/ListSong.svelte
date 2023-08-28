@@ -5,6 +5,11 @@
     export let text = "Esse sint non ad pariatur consequat irure veniam irure amet laboris voluptate eiusmod. Commodo eiusmod nulla exercitation incididunt esse."
     export let choosen = false;
     export let img
+    export let playing = false;
+
+    export const stop = () => playing = false
+    export const play = () => playing = true
+    export const deselect = () => choosen = false
 
     const dispatch = createEventDispatcher();
     let offset = tweened(0, {duration:100});
@@ -12,9 +17,9 @@
     let rotateY = tweened(0);
     let timer;
     let spanRef;
-    let playing = false;
 
     const startAutoscrollX = () => {
+        if(!spanRef) return;
         rotateX.set(textWidthX - spanRef.clientWidth, {duration : speedX})
         clearTimeout(timer)
         timer = setInterval(() => {
@@ -23,6 +28,7 @@
         }, speedX + 1000);
     }
     const startAutoscrollY = () => {
+        if(!spanRef) return;
         rotateY.set(textWidthY - spanRef.clientHeight, {duration:speedY})
         clearTimeout(timer)
         timer = setInterval(() => {

@@ -18,6 +18,7 @@
         w-screen
         h-screen
         bg-[rgba(0,0,0,0.5)]
+        z-50
     "
     transition:fade
 >
@@ -68,7 +69,7 @@
             />
         </div>
         <div
-            class="flex-1"
+            class="flex-1 flex justify-center min-w-full"
         >
             <slot />
         </div>

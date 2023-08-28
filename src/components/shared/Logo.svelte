@@ -1,11 +1,10 @@
 <script>
-    import { goto } from "$app/navigation"
     export let clickable = false
     export let href = '/'
     export let hLabel = 'homepage'
 
     const handleClick = () => {
-        goto(href);
+        window.location.href = href
     }
 </script>
 

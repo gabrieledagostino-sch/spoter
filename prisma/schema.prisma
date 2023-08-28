@@ -16,6 +16,7 @@ model Track {
   userId String
   discovery Discovery? @relation(fields: [discoveryId], references: [id])
   discoveryId Int?
+  updatedAt DateTime @updatedAt
   @@id([id, userId])
 }
 

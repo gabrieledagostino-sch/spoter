@@ -1,5 +1,5 @@
 <script>
-    import { createEventDispatcher, onMount } from "svelte";
+    import { createEventDispatcher } from "svelte";
 
     export let username = 'Prova';
     export let img = "https://picsum.photos/id/684/600/400";
@@ -52,19 +52,19 @@
             <span class="mx-auto">{username}</span>
             <ul class="userInfo text-smallText text-complementaryFG bg-bgColor rounded-2xl p-4">
                 <li>
-                    <span>Canzoni scoperte</span>
+                    <span>Discovered Songs</span>
                     <span>{nTracke}</span>
                 </li>
                 <li>
-                    <span>Canzoni interessanti</span>
+                    <span>Interesting Songs</span>
                     <span>{nInterests}</span>
                 </li>
                 <li>
-                    <span>Canzoni importate su spotify</span>
+                    <span>Songs exported to a playlist</span>
                     <span>{nExports}</span>
                 </li>
                 <li>
-                    <span>Playlist create</span>
+                    <span>Playlists created</span>
                     <span>{nPlaylists}</span>
                 </li>
             </ul>

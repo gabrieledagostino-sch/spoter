@@ -21,7 +21,7 @@ export const RequestAuth = (
     response_type:'code',
     redirect_uri:callBackURL,
     state,
-    scope:'user-read-private user-read-email'
+    scope:'user-read-private user-read-email playlist-modify-public playlist-modify-private'
 }).toString()
 
 export const requestAccessToken = async (
@@ -218,7 +218,8 @@ export const getTrack = (
         preview:el.preview_url,
         image:el.album.images[0].url,
         genres:el.genres,
-        access_token:el.access_token
+        access_token:el.access_token,
+        uri:el.uri
     }))
 }
 
@@ -265,4 +266,53 @@ export const getRecommendations = (
         }
         return {tracks, access_token:json.access_token}
     })
+}
+
+export const createPlaylist = (
+    user_id,
+    name,
+    p,
+    token,
+    fetch
+) => {
+    console.log(JSON.stringify({
+        name,
+        public:p,
+        description:`Playlist created from spoter - ${new Date(Date.now()).toLocaleDateString().replaceAll('/', '-')}`
+    }))
+    return normalRequest(`https://api.spotify.com/v1/users/${user_id}/playlists`,
+        {
+            method:"post",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${token}`
+            },
+            body:JSON.stringify({
+                name,
+                public:p,
+                description:`Playlist created from spoter - ${new Date(Date.now()).toLocaleDateString().replaceAll('/', '-')}`
+            })
+        },
+        fetch
+    ).then(json => json.id)
+}
+
+export const addSongs = (
+    token,
+    playlist_id,
+    uris,
+    fetch
+)=>{
+    return normalRequest(`https://api.spotify.com/v1/playlists/${playlist_id}/tracks`,
+    {
+        method:"post",
+        headers:{
+            "Content-Type":"application/json",
+            "Authorization":`Bearer ${token}`
+        },
+        body:JSON.stringify({
+            uris
+        })
+    },
+    fetch)
 }
