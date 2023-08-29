@@ -15,7 +15,6 @@
     let fetching = true;
 
     $: {
-        console.log('fetching')
         if(!fetching && cards.length < MIN_CARDS && next)
             getMore().finally(() => fetching = false)
     }
@@ -34,16 +33,12 @@
             method:"post",
             body:JSON.stringify({direction:e.detail, id:card.id})
         }))
-        .then(r => r.json()).then(v => console.log(v))
     }
 
     const getMore = async () => {
-        console.log(cards.length)
-        console.log("fetching ..." + next)
         fetch(next).then(r => r.json()).then(j => {
             cards = [...cards, ...j?.recommendations]
             next = j.next
-            console.log(... cards.map(v => v.name+'\n'))
         })
     }   
     
@@ -64,7 +59,7 @@
     })
 
 </script>
-
+<svelte:head>Spoter - Discovery</svelte:head>
 <div 
     class="
         w-full

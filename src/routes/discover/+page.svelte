@@ -9,7 +9,6 @@
         'Similar To',
         'Artist',
         'Genre',
-        'Random',
     ]
 
     let value = 1;
@@ -20,6 +19,9 @@
     onMount(() => value=0)
     $: selected = song?.id??song
 </script>
+<svelte:head>
+    <title>Spoter - Discover</title>
+</svelte:head>
 <div class="
         box-border
         

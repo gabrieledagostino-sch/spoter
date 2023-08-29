@@ -47,9 +47,7 @@ export async function GET({ url, cookies, fetch }) {
     }, {
         status:userInfoResp.status
     })
-    console.log(userInfoResp);
     const { id, display_name, images, country } = userInfoResp
-    console.log(country);
 
     let user = await prisma.user.findUnique({
         where:{ id }

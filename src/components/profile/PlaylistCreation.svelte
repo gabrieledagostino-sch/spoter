@@ -62,7 +62,15 @@
         }
         selected = selected
     }
-
+    const deleteHandle = async (o) => {
+        songs = await Promise.all(songs)
+        .then(arr => {
+            selected.delete(JSON.stringify(o))
+            selected = selected
+            return arr.filter(v => v.id !== o.id).map(v => Promise.resolve(v))
+        })
+        await fetch('/api/delete?'+new URLSearchParams({track:o.id}), {method:"get"})
+    }
     onMount(() => {
         audio = new Audio()
     })
@@ -117,7 +125,7 @@ List song which is already responsive -->
                     img={value.image}
                     text={value.artists.join(", ") + " - " + value.name}
                     bind:this={listSongs[value.preview]}
-                    on:more={_ => console.log(`more : ${value.id}`)}
+                    on:delete={async _ => deleteHandle({id:value.id, name:value.name})}
                     on:play={() => playHandle(value.preview)}
                     on:pause={stopHandle}
                     on:change={(e) => changeHandle(e, {id:value.id, name:value.name})}

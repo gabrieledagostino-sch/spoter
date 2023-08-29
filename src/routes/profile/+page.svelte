@@ -6,7 +6,9 @@
     let user = data.user
     let songs = data.songs
 </script>
-
+<svelte:head>
+    <title>Spoter - Profile</title>
+</svelte:head>
 <div 
     class="
         w-full
@@ -24,7 +26,7 @@
 
     "
 >
-    <Profile nInterests={user.nInterests} username={user.username} img={user.profilePicUrl ?? undefined} nPlaylists={user.nPlaylists} nTracke={user.nTracke} />
+    <Profile nInterests={user.nInterests} username={user.username} img={user.profilePicUrl ?? undefined} nPlaylists={user.nPlaylists} nTracke={user.nTracke} nExports={user.nExports} />
     <PlaylistCreation {songs}/>
 </div>
 

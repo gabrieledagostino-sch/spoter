@@ -40,6 +40,7 @@ export async function load({ locals, cookies, fetch }) {
             profilePicUrl : user.profilePicUrl,
             nPlaylists : user.nPlaylists,
             nTracke : user.nTracke,
+            nExports : user.nExports,
             nInterests: songs.length
         }
     }
@@ -70,7 +71,6 @@ export const actions = {
                 discoveryId:null
             }
         }));
-
         arr.push(
             prisma.user.update({
                 where: {id:user.id},

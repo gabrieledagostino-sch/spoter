@@ -31,7 +31,6 @@ export async function GET({ url, fetch, cookies, locals }) {
             err = {message:'invalid type', status:400}
             break;
     }
-
     if(access_token)
         cookies.set('AccessToken', access_token, {
             httpOnly:true,

@@ -6,7 +6,6 @@ import {COOKIE_SIGNER} from "$env/static/private";
 
 /** @type {import("./$types").RequestHandler} */
 export async function GET({ url, cookies, locals, fetch }) {
-    console.log("sadsads")
     const type = url.searchParams.get('type')
     const query = url.searchParams.get('query')
     const more = url.searchParams.get('more')
@@ -27,8 +26,6 @@ export async function GET({ url, cookies, locals, fetch }) {
         ).then(r=> r.json())
         
     }
-    console.log("here")
-    console.log(id, "iddd")
     
     let recommendations = [];
     const cachedTracks = await prisma.track.findMany({
@@ -58,7 +55,6 @@ export async function GET({ url, cookies, locals, fetch }) {
         if(type === 'Genre') genres_IDS.push(id)
 
         let ret = await getRecommendations(artists_IDS, genres_IDS, tracks_IDS, country, access_token, fetch, 20)
-        
         if(ret.access_token) {
             access_token = ret.access_token
 
@@ -71,7 +67,6 @@ export async function GET({ url, cookies, locals, fetch }) {
         
         artists_IDS = genres_IDS = []
         tracks_IDS =  ret.tracks.slice(0, 4).map(v => v.id)
-        console.log(tracks_IDS)
         recommendations= [...recommendations, ...ret.tracks.filter(v => !cachedTracks.includes(v.id))].slice(0, 20)
         if(ret.tracks.length < 20) break;
     }

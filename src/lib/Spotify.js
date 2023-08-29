@@ -232,40 +232,38 @@ export const getRecommendations = (
     fetch,
     limit=20
     ) => {
-        console.log(artists_IDS, genres_IDS, tracks_IDS)
-        console.log("length", artists_IDS.length , genres_IDS.length , tracks_IDS.length)
-    assert(artists_IDS.length + genres_IDS.length + tracks_IDS.length <= 5)
-    return normalRequest(
-        reccomendationsURL+"?"+new URLSearchParams({
-            limit,
-            market,
-            seed_tracks:tracks_IDS,
-            seed_artists:artists_IDS,
-            seed_genres:genres_IDS
-        }).toString(),
-        {
-            method:"get",
-            headers:{
-                Authorization:`Bearer ${token}`
-            }   
-        },
-        fetch
-    ).then(json => {
-        let tracks= [];
-        for(let i = 0; i < json.tracks.length; ++i) {
-            const el = json.tracks[i]
-            if(el.preview_url)
-                tracks.push({
-                    id:el.id,
-                    name:el.name,
-                    album:el.album.name,
-                    artists:el.artists.map(v => v.name),
-                    preview:el.preview_url,
-                    image:el.album.images[0].url
-                })
-        }
-        return {tracks, access_token:json.access_token}
-    })
+        assert(artists_IDS.length + genres_IDS.length + tracks_IDS.length <= 5)
+        return normalRequest(
+            reccomendationsURL+"?"+new URLSearchParams({
+                limit,
+                market,
+                seed_tracks:tracks_IDS,
+                seed_artists:artists_IDS,
+                seed_genres:genres_IDS
+            }).toString(),
+            {
+                method:"get",
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }   
+            },
+            fetch
+        ).then(json => {
+            let tracks= [];
+            for(let i = 0; i < json.tracks.length; ++i) {
+                const el = json.tracks[i]
+                if(el.preview_url)
+                    tracks.push({
+                        id:el.id,
+                        name:el.name,
+                        album:el.album.name,
+                        artists:el.artists.map(v => v.name),
+                        preview:el.preview_url,
+                        image:el.album.images[0].url
+                    })
+            }
+            return {tracks, access_token:json.access_token}
+        })
 }
 
 export const createPlaylist = (
@@ -275,11 +273,6 @@ export const createPlaylist = (
     token,
     fetch
 ) => {
-    console.log(JSON.stringify({
-        name,
-        public:p,
-        description:`Playlist created from spoter - ${new Date(Date.now()).toLocaleDateString().replaceAll('/', '-')}`
-    }))
     return normalRequest(`https://api.spotify.com/v1/users/${user_id}/playlists`,
         {
             method:"post",

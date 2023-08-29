@@ -2,6 +2,7 @@
     import Dialog from "../shared/Dialog.svelte";
     import Title from "./Title.svelte";
     import ProfileButton from "../shared/ProfileButton.svelte";
+  import Logo from "../shared/Logo.svelte";
 
     export let username
     export let logged
@@ -58,5 +59,19 @@
                 fa-bars
             "></i>
         </Dialog>    
+    </div>
+    <div
+        class="
+            absolute
+            min-h-full
+            left-0
+            top-0
+            aspect-square
+            flex
+            justify-center
+            items-center
+        "
+    >
+        <Logo --width="2rem" --height="2rem" clickable={true} />
     </div>
 </header>

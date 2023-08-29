@@ -5,7 +5,6 @@ import { searchTrack } from "$lib/Spotify";
 export async function GET({ url, cookies, locals, fetch }) {
     const q = url.searchParams.get('query');
     const token = cookies.get('AccessToken', {path:'/'});
-    console.log(locals)
     const {access_token, tracks, message, status } = await searchTrack(
         token,
         fetch,

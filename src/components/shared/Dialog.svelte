@@ -90,7 +90,7 @@
                                 {!choice.isSvelte || choice.effect?'hover:text-fg':''}
                                 {!choice.isSvelte || choice.effect?'hover:border-b-fg':''}
                             "
-                            on:click={(ev) => choice.effect(ev, ()=>show=focus=false)}
+                            on:click={(ev) => {if(choice.effect) choice.effect(ev, ()=>show=focus=false)}}
                         >
                             {#if choice.isSvelte}
                                 <svelte:component this={choice.element} {...choice.props} />

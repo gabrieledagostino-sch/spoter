@@ -148,13 +148,13 @@
         <i 
             class="
                 fas 
-                fa-ellipsis-v
+                fa-trash
                 cursor-pointer
                 hover:bg-select
             " 
             role="button" 
-            on:click={(e) => dispatch('more', e)} 
-            on:keypress={e => dispatch('more', e)}
+            on:click={(e) => dispatch('delete', e)} 
+            on:keypress={e => dispatch('delete', e)}
             tabindex=0
         />
     {#if playing}

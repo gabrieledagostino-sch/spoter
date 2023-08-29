@@ -3,6 +3,9 @@
     import Logo from "../components/shared/Logo.svelte";
     import ProfileButton from "../components/shared/ProfileButton.svelte";
 </script>
+<svelte:head>
+    <title>Spoter - Homepage</title>
+</svelte:head>
 <div
     class="
         w-full
@@ -38,7 +41,7 @@
         <Title />
         <p
             class="text-complementaryFG"
-        >Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum laudantium ratione quisquam. Dignissimos laboriosam iste voluptatum mollitia quidem non dolorem, vel placeat ut, cum enim, ea tenetur totam optio? Blanditiis?</p>
+        >Spoter is a web app that makes discovering new music easy and straigthforward. Just search for a track, an autor or a genre that you like and it will use spotify APIs to make suggestions. It will show a preview and just by swiping left or right you tell your interest. You can then go in your profile and make a playlist out of those interests.</p>
     </div>
     <div
         class="

@@ -25,7 +25,5 @@ export async function POST(event) {
         }
     })
 
-    console.log(direction, id, userId, newTrack)
-
     return json({});
 }

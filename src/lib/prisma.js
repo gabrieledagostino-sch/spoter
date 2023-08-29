@@ -2,7 +2,6 @@ import { PrismaClient } from "@prisma/client";
 
 const initializePrisma = async () => {
     let prismaInstance = new PrismaClient({ log : ['query', 'info', 'warn', 'error']})
-    console.log("instance")
     await prismaInstance.$executeRaw`CREATE OR REPLACE FUNCTION delete_outdated_tracks()
     RETURNS TRIGGER AS $$
     BEGIN
