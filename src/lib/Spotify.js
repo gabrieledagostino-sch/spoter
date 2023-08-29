@@ -1,7 +1,7 @@
 import { SP_CLIENT_ID, SP_SECRET_KEY } from "$env/static/private";
 import { assert } from "console";
 import { URLSearchParams } from "url";
-
+import { PUBLIC_URL } from "$env/static/public";
 const authorizeURL = 'https://accounts.spotify.com/authorize?'
 const accessTokenURL = 'https://accounts.spotify.com/api/token'
 const userInfoURL = 'https://api.spotify.com/v1/me'
@@ -9,7 +9,7 @@ const searchURL = 'https://api.spotify.com/v1/search'
 const refreshURL = "https://accounts.spotify.com/api/token"
 const trackURL = 'https://api.spotify.com/v1/tracks/'
 const reccomendationsURL = 'https://api.spotify.com/v1/recommendations'
-const callBackURL = 'https://localhost:4173/api/spotify/callback'
+const callBackURL = PUBLIC_URL+'/api/spotify/callback'
 /* 
     Authentication requests
 */
