@@ -1,9 +1,11 @@
-.vscode/*
-__test__/*
+.vscode
+__test__
 .babelrc
 .gitignore
 .dockerignore
-Docker*
+Dockerfile
+Docker-compose.yml
 jsconfig.json
 README.md
 node_modules
+.env.example
