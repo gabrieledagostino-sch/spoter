@@ -70,7 +70,7 @@
             </ul>
         </div>
     </div>
-        <i class="fa-solid fa-gear my-4" tabindex=0 role="button" on:click={()=>dispatch('settings')} on:keypress={()=>dispatch('settings')} />
+        <!-- <i class="fa-solid fa-gear my-4" tabindex=0 role="button" on:click={()=>dispatch('settings')} on:keypress={()=>dispatch('settings')} /> -->
 </div>
 <style>
     li {

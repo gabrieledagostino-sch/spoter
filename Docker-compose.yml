@@ -15,7 +15,6 @@ services:
       PGDATA: /var/lib/postgresql/data
     volumes:
       - spoter-db-data:/var/lib/postgresql/data
-      - ./sql:/docker-entrypoint-initdb.d
     restart: unless-stopped
   #Prisma studio service
   pgadmin:
@@ -42,6 +41,7 @@ services:
     container_name: spoter-ws
     ports:
       - 5173:5173
+      - 4173:4173
     depends_on:
       - postgres
     volumes:
@@ -57,8 +57,8 @@ services:
       - ./prisma/schema.prisma:/home/node/spoter/prisma/schema.prisma
       - ./.env:/home/node/spoter/.env
     tty: true
-    command: npm run dev
-    restart: unless-stopped
+    entrypoint: ./entrypoint.sh
+    restart: no
 
 volumes:
   spoter-db-data:

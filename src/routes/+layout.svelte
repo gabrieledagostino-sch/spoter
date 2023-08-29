@@ -2,6 +2,8 @@
   import "../app.postcss";
   import Footer from "../components/layout/Footer.svelte";
   import Header from "../components/layout/Header.svelte";
+  import { onMount } from 'svelte';
+  
 
   export let data;
 </script>

@@ -1,0 +1,9 @@
+.vscode/*
+__test__/*
+.babelrc
+.gitignore
+.dockerignore
+Docker*
+jsconfig.json
+README.md
+node_modules

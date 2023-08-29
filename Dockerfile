@@ -1,9 +1,9 @@
 FROM node:latest
+RUN mkdir /home/node/spoter
 WORKDIR /home/node/spoter
-COPY package*.json .
-COPY prisma ./prisma/
-COPY .env ./
-COPY ./*.pem ./
+COPY . .
+RUN chmod +x entrypoint.sh
 RUN npm ci
-RUN npx prisma generate
+RUN npm run build
 EXPOSE 5173
+EXPOSE 4173

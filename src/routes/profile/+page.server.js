@@ -1,5 +1,3 @@
-// import prisma from "$lib/prisma";
-
 import { addSongs, createPlaylist, getTrack } from "$lib/Spotify";
 import prisma from "$lib/prisma";
 

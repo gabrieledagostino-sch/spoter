@@ -1,7 +1,7 @@
 import { json, redirect } from "@sveltejs/kit";
 import { getUserInfo, requestAccessToken } from "$lib/Spotify";
 import prisma from "$lib/prisma";
-import { sign } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { COOKIE_SIGNER } from "$env/static/private";
 
 /** @type {import("./$types").RequestHandler} */
@@ -88,7 +88,7 @@ export async function GET({ url, cookies, fetch }) {
     }))
     .then(_ => cookies.set(
         'SessionId', 
-        sign(
+        jwt.sign(
             {
                 id:state,
                 userId:id,
