@@ -47,7 +47,7 @@ self.addEventListener('fetch', (event) => {
         //Network first fallback offline page
         return fetch(event.request)
         .catch(() => {
-            return CACHE.match('/offline.html')
+            return cache.match('/offline.html')
         })
     }
 
