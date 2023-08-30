@@ -32,20 +32,16 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-    async function respond() {
+    event.respondWith((async () => {
         const cache = await caches.open(CACHE)
 
-        //stale-while-revalidate for static files
-        if(ASSETS.includes(event.request.url)) {
-            return cache.match(event.request)
-                .then(cached => {
-                    const fetched = fetch(event.request).then(network => {
-                        cache.put(event.request, network.clone())
-                        return network
-                    })
-                    return cached || fetched
-                })
-        }
+        if(ASSETS.includes(event.request.url)) return cache.match(event.request).then(cached => {
+            const fetched = fetch(event.request).then(network => {
+                cache.put(event.request, network.clone())
+                return network
+            })
+            return cached || fetched
+        })
         //Network first fallback offline page
         console.log(event.request)
         console.log(CACHE)
@@ -55,7 +51,5 @@ self.addEventListener('fetch', (event) => {
         .catch(() => {
             return cache.match('/offline.html')
         })
-    }
-
-    event.waitUntil(respond())
+    })())
 })
