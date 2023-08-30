@@ -34,7 +34,7 @@ self.addEventListener('fetch', (event) => {
         const cache = await caches.open(CACHE)
 
         //stale-while-revalidate for static files
-        if(files.includes(event.request.url)) {
+        if(ASSETS.includes(event.request.url)) {
             return cache.match(event.request)
                 .then(cached => {
                     const fetched = fetch(event.request).then(network => {
