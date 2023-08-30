@@ -6,7 +6,6 @@ const CACHE = `cache-${version}`;
  
 const ASSETS = [
     ...files,  // everything in `static`
-    '/offline.html',
 ];
  
 self.addEventListener('install', (event) => {
