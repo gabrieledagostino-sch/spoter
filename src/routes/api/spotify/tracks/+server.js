@@ -1,25 +1,14 @@
 import { json } from "@sveltejs/kit";
-import { searchTrack } from "$lib/Spotify";
+import { getTrack, searchTrack } from "$lib/Spotify";
 
 /** @type {import("./$types").RequestHandler} */
 export async function GET({ url, cookies, locals, fetch }) {
-    const q = url.searchParams.get('query');
+    const id = url.searchParams.get('id');
     const token = cookies.get('AccessToken', {path:'/'});
-    const {access_token, tracks, message, status } = await searchTrack(
-        token,
-        fetch,
-        q,
-        locals.user.country,
-    )
-    .catch(err => err);
-    
-    if(message) return json({message}, {status});
+    const {country} = locals.user
 
-    if(access_token) cookies.set('AccessToken', access_token, {
-        httpOnly:true,
-        secure:true,
-        path:'/',
-    })
+    let resp = await getTrack(token, fetch, id, country)
     
-    return json(tracks, {status:200})
+
+    return json(resp, {status:resp.status ?? 200})
 }

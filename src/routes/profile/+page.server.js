@@ -23,7 +23,8 @@ export async function load({ locals, cookies, fetch }) {
 
     let songs = tracks.map(el => {
             let createdAt = el.discovery.createdAt
-            return getTrack(token, fetch, el.id, user.country)
+            return fetch('/api/spotify/tracks?id='+el.id)
+            .then(res => res.json())
             .then(res => {
                 const {access_token, ...track} = res
                 if(access_token) token = access_token
