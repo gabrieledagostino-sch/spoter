@@ -51,6 +51,7 @@ self.addEventListener('fetch', (event) => {
         console.log(CACHE)
         console.log(await cache.match('/offline.html'))
         return fetch(event.request)
+        .then(res => res||cache.match('/offline.html'))
         .catch(() => {
             return cache.match('/offline.html')
         })
