@@ -12,6 +12,7 @@ const nonCachable = ['.js', '.css', '.html']
 self.addEventListener('install', (event) => {
     // Create a new cache and add all files to it
     console.log(ASSETS)
+    console.log(build)
 
     async function addFilesToCache() {
         const cache = await caches.open(CACHE);
