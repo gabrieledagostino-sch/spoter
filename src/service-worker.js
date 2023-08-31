@@ -7,12 +7,10 @@ const CACHE = `cache-${version}`;
 const ASSETS = [
     ...files,  // everything in `static`
 ];
-const nonCachable = ['.js', '.css', '.html', '/']
+const nonCachable = ['.js', '.css', '.html', '/' , '/profile', '/discover', '/discoverQueue']
  
 self.addEventListener('install', (event) => {
     // Create a new cache and add all files to it
-    console.log(ASSETS)
-    console.log(build)
 
     async function addFilesToCache() {
         const cache = await caches.open(CACHE);
@@ -26,9 +24,7 @@ self.addEventListener('activate', (event) => {
     // Remove previous cached data from disk
     
     async function deleteOldCaches() {
-        console.log("cachename",CACHE)
         for (const key of await caches.keys()) {
-            console.log(key)
             if (key !== CACHE) await caches.delete(key);
         }
     }

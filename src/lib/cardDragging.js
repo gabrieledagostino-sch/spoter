@@ -1,5 +1,4 @@
 import interact from "interactjs";
-import { createEventDispatcher } from "svelte";
 
 export const animate = (t, options={}) => {
     let x = 0;

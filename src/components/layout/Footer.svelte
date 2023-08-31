@@ -23,7 +23,7 @@
         gap-4
     "
 >
-    <span>Gariele D'Agostino</span>
+    <span>Gabriele D'Agostino</span>
     <i 
         role="link"
         tabindex=0
