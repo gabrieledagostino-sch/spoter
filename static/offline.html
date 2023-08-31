@@ -61,6 +61,7 @@
             const response = fetch('.')
             .then(resp => {
                 if(response.status >= 200 && response.status < 500 ) {
+                    console.log('fetch success')
                     windo.location.reload();
                     return;
                 }    
