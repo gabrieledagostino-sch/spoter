@@ -60,8 +60,8 @@
         const checkAndReload = ()=> {
             const response = fetch('.')
             .then(resp => {
+                console.log("offline.html",resp)
                 if(response.status >= 200 && response.status < 500 ) {
-                    console.log('fetch success')
                     windo.location.reload();
                     return;
                 }    
