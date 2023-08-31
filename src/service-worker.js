@@ -35,17 +35,20 @@ self.addEventListener('fetch', (event) => {
     event.respondWith((async () => {
         const cache = await caches.open(CACHE)
 
-        if(ASSETS.includes(event.request.url)) return cache.match(event.request).then(cached => {
+        //if it doesn't and with js, css or html is cachable
+        const nonCachable = ['.js', '.css', '.html']
+        const isCachable = !nonCachable.some(extension => event.request.url.endsWith(extension))
+        
+        //Stale-while-revalidate
+        if(isCachable || ASSETS.includes(event.request.url)) return cache.match(event.request).then(cached => {
             const fetched = fetch(event.request).then(network => {
                 cache.put(event.request, network.clone())
                 return network
             })
             return cached || fetched
         })
+
         //Network first fallback offline page
-        console.log(event.request)
-        console.log(CACHE)
-        console.log(await cache.match('/offline.html'))
         return fetch(event.request)
         .then(res => res||cache.match('/offline.html'))
         .catch(() => {
