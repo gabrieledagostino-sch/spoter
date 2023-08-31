@@ -7,7 +7,7 @@ const CACHE = `cache-${version}`;
 const ASSETS = [
     ...files,  // everything in `static`
 ];
-const nonCachable = ['.js', '.css', '.html']
+const nonCachable = ['.js', '.css', '.html', '/']
  
 self.addEventListener('install', (event) => {
     // Create a new cache and add all files to it
@@ -45,12 +45,13 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
     event.respondWith((async () => {
         const cache = await caches.open(CACHE)
-        console.log(event.request.url)
 
         //if it doesn't end with js, css or html is cachable (static file)
         const isCachable = !nonCachable.some(extension => event.request.url.endsWith(extension))
         const url = new URL(event.request.url)
-        
+
+        console.log(url)
+        console.log(event.request.url)
         console.log(isCachable)
         console.log(ASSETS.includes(url.pathname))
 
