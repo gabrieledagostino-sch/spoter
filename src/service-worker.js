@@ -1,5 +1,5 @@
 /// <reference types="@sveltejs/kit" />
-import { files, version } from '$service-worker';
+import { build, files, version } from '$service-worker';
  
 // Create a unique cache name for this deployment
 const CACHE = `cache-${version}`;
@@ -54,20 +54,29 @@ self.addEventListener('fetch', (event) => {
         console.log(ASSETS.includes(url.pathname))
 
         //static files always served from cache
-        if(ASSETS.includes(url.pathname)) 
+        if(ASSETS.includes(url.pathname)) { 
             return cache.match(url.pathname)
+        }
 
-        //Stale-while-revalidate for online static files
-        if(isCachable) return cache.match(event.request).then(cached => {
-            const fetched = fetch(event.request).then(network => {
-                cache.put(event.request, network.clone())
-                return network
+        if(build.includes(url.pathname)) { 
+            return fetch(event.request)
+            .then(res => res||cache.match('/offline.html'))
+            .catch(() => {
+                return cache.match('/offline.html')
             })
-            return cached || fetched
-        })
+        }
         
-        //pages go network first and fallback to offline page
-        console.log('reached here')
+        //Stale-while-revalidate for online static files
+        if(isCachable) {
+            return cache.match(event.request).then(cached => {
+                const fetched = fetch(event.request).then(network => {
+                    cache.put(event.request, network.clone())
+                    return network
+                })
+                return cached || fetched
+            })
+        }
+        
         return fetch(event.request)
         .then(res => res||cache.match('/offline.html'))
         .catch(() => {
