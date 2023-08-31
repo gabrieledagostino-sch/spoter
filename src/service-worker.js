@@ -50,11 +50,6 @@ self.addEventListener('fetch', (event) => {
         const isCachable = !nonCachable.some(extension => event.request.url.endsWith(extension))
         const url = new URL(event.request.url)
 
-        console.log(url)
-        console.log(event.request.url)
-        console.log(isCachable)
-        console.log(ASSETS.includes(url.pathname))
-
         //static files always served from cache
         if(ASSETS.includes(url.pathname)) { 
             return cache.match(url.pathname)

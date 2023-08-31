@@ -57,18 +57,15 @@
     </style>
 
     <script>
-        const checkAndReload = ()=> {
-            const response = fetch('.')
+        const checkAndReload = ()=> fetch('.')
             .then(resp => {
-                console.log("offline.html",resp)
-                if(response.status >= 200 && response.status < 500 ) {
-                    windo.location.reload();
+                if(resp.status >= 200 && resp.status < 500 ) {
+                    window.location.reload();
                     return;
                 }    
             })
             .catch(() => {})
-            window.setTimeout(checkAndReload, 2000)
-        }
+            .finally(() => window.setTimeout(checkAndReload, 2000))
         
         window.addEventListener('load', () => {
             const button = document.querySelector('button').addEventListener('click', () => {
