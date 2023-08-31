@@ -34,11 +34,11 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
     event.respondWith((async () => {
         const cache = await caches.open(CACHE)
-
+        console.log(event.request.url)
         //if it doesn't and with js, css or html is cachable
         const nonCachable = ['.js', '.css', '.html']
         const isCachable = !nonCachable.some(extension => event.request.url.endsWith(extension))
-        
+        console.log(isCachable)
         //Stale-while-revalidate
         if(isCachable || ASSETS.includes(event.request.url)) return cache.match(event.request).then(cached => {
             const fetched = fetch(event.request).then(network => {
@@ -47,7 +47,7 @@ self.addEventListener('fetch', (event) => {
             })
             return cached || fetched
         })
-
+        console.log('reached here')
         //Network first fallback offline page
         return fetch(event.request)
         .then(res => res||cache.match('/offline.html'))
