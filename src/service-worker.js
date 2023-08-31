@@ -7,7 +7,7 @@ const CACHE = `cache-${version}`;
 const ASSETS = [
     ...files,  // everything in `static`
 ];
-const nonCachable = ['.js', '.css', '.html', '/' , '/profile', '/discover', '/discoverQueue']
+const nonCachable = ['.js', '.css', '.html', '/' , '/profile', '/discover', '/discoverQueue', '/logout']
  
 self.addEventListener('install', (event) => {
     // Create a new cache and add all files to it
