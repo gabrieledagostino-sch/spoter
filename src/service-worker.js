@@ -39,6 +39,7 @@ self.addEventListener('fetch', (event) => {
         const nonCachable = ['.js', '.css', '.html']
         const isCachable = !nonCachable.some(extension => event.request.url.endsWith(extension))
         console.log(isCachable)
+        console.log(ASSETS.includes(event.request.url))
         //Stale-while-revalidate
         if(isCachable || ASSETS.includes(event.request.url)) return cache.match(event.request).then(cached => {
             const fetched = fetch(event.request).then(network => {
