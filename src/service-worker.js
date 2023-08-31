@@ -7,9 +7,12 @@ const CACHE = `cache-${version}`;
 const ASSETS = [
     ...files,  // everything in `static`
 ];
+const nonCachable = ['.js', '.css', '.html']
  
 self.addEventListener('install', (event) => {
-  // Create a new cache and add all files to it
+    // Create a new cache and add all files to it
+    console.log(ASSETS)
+
     async function addFilesToCache() {
         const cache = await caches.open(CACHE);
         await cache.addAll(ASSETS);
@@ -19,7 +22,8 @@ self.addEventListener('install', (event) => {
 });
  
 self.addEventListener('activate', (event) => {
-  // Remove previous cached data from disk
+    // Remove previous cached data from disk
+    
     async function deleteOldCaches() {
         console.log("cachename",CACHE)
         for (const key of await caches.keys()) {
@@ -31,25 +35,39 @@ self.addEventListener('activate', (event) => {
     event.waitUntil(deleteOldCaches());
 });
 
+/**
+ * Cache strategy :
+ *  static files go cache first
+ *  online static files, like song pictures go stale-while-revalidate
+ *  dynamic files, like pages scripts and css go network first or fallback to offline page
+ */
 self.addEventListener('fetch', (event) => {
     event.respondWith((async () => {
         const cache = await caches.open(CACHE)
         console.log(event.request.url)
-        //if it doesn't and with js, css or html is cachable
-        const nonCachable = ['.js', '.css', '.html']
+
+        //if it doesn't end with js, css or html is cachable (static file)
         const isCachable = !nonCachable.some(extension => event.request.url.endsWith(extension))
+        const url = new URL(event.request.url)
+        
         console.log(isCachable)
-        console.log(ASSETS.includes(event.request.url.pathname))
-        //Stale-while-revalidate
-        if(isCachable || ASSETS.includes(event.request.url.pathname)) return cache.match(event.request).then(cached => {
+        console.log(ASSETS.includes(url.pathname))
+
+        //static files always served from cache
+        if(ASSETS.includes(url.pathname)) 
+            return cache.match(url.pathname)
+
+        //Stale-while-revalidate for online static files
+        if(isCachable) return cache.match(event.request).then(cached => {
             const fetched = fetch(event.request).then(network => {
                 cache.put(event.request, network.clone())
                 return network
             })
             return cached || fetched
         })
+        
+        //pages go network first and fallback to offline page
         console.log('reached here')
-        //Network first fallback offline page
         return fetch(event.request)
         .then(res => res||cache.match('/offline.html'))
         .catch(() => {
