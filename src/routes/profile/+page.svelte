@@ -20,7 +20,7 @@
                     const data = {url : form?.url}
                     const notification = new Notification(title, {body, icon, data})
                     notification.addEventListener('click', ev => {
-                        ev?.notification.close()
+                        ev?.notification?.close()
                         window.open(form?.url, '_blank')
                     })
                 }
