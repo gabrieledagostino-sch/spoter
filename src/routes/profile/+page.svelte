@@ -11,15 +11,17 @@
     
     console.log(form)
     onMount(() => {
-        if(document) document.addEventListener('load', ()=>{
-            if(Notification?.permission === 'granted' && form?.url) {
-                const title = `Playlist ${form?.name} created`
-                const body = `Tap this notification to open on spotify`
-                const icon = `/logo/logo.png`
-                const data = {url:form?.url}
-                const notification = new Notification(title, {body, icon, data})
-            }
-        })
+        if('Notification' in window) {
+            Notification.requestPermission().then(permission => {
+                if(permission === 'granted' && form?.url) {
+                    const title = `Playlist ${form?.name} created`
+                    const body = `Tap this notification to open on Spotify`
+                    const icon = `/logo/logo.png`
+                    const data = {url : form?.url}
+                    const notification = new Notification(title, {body, icon, data})
+                }
+            })
+        }
     })
 </script>
 <svelte:head>
