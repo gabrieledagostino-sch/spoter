@@ -79,8 +79,11 @@ self.addEventListener('fetch', (event) => {
 })
 
 self.addEventListener('notificationclick', (ev) => {
-    const url = ev.notification.data.url;
+    const clickedNotification = event?.notification
+
+    clickedNotification.close()
+
     ev.waitUntil(
-        clients.openWindow(url)
+        self.clients.openWindow(clickedNotification.data.url)
     )
 })
