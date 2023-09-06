@@ -1,10 +1,18 @@
 <script>
+    import { onMount } from "svelte";
     import PlaylistCreation from "../../components/profile/PlaylistCreation.svelte";
     import Profile from "../../components/profile/profile.svelte";
 
     export let data
+    export let form
     let user = data.user
     let songs = data.songs
+
+    onMount(() => {
+        if(form.success) {
+            console.log("here")
+        }
+    })
 </script>
 <svelte:head>
     <title>Spoter - Profile</title>

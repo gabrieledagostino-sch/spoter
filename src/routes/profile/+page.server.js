@@ -2,8 +2,9 @@ import { addSongs, createPlaylist, getTrack } from "$lib/Spotify";
 import prisma from "$lib/prisma";
 
 /** @type {import("./$types").PageServerLoad} */
-export async function load({ locals, cookies, fetch }) {
+export async function load({ locals, cookies, fetch, url }) {
     const user = locals.user;
+    const notify = url.searchParams.get('notify')
     let token = cookies.get('AccessToken', {path:'/'})
     const tracks = await prisma.track.findMany({
         where:{
@@ -82,13 +83,13 @@ export const actions = {
 
         for (let i = 0; i < uri.length; i += 100) chunks.push(uri.slice(i, i+100))
         
-        const playlistId = await createPlaylist(user.id, name, p, token, fetch)
+        const {id:playlistId, url:spotifyUrl} = await createPlaylist(user.id, name, p, token, fetch)
         
         for(const chunk of chunks) {
             await addSongs(token, playlistId, await Promise.all(chunk), fetch)
         }
         
         await Promise.all(arr)
-        return {}
+        return {url:spotifyUrl}
     }
 }

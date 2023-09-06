@@ -5,7 +5,7 @@ import { readFileSync } from 'fs'
 export default defineConfig({
 	plugins: [sveltekit()],
 	server : {
-		// https:{ uncomment for localcontainer https
+		// https:{ //uncomment for localcontainer https
 		// 	key: readFileSync('./localhost-key.pem'),
 		// 	cert: readFileSync('./localhost.pem')
 		// },

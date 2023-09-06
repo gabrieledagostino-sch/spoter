@@ -287,7 +287,7 @@ export const createPlaylist = (
             })
         },
         fetch
-    ).then(json => json.id)
+    ).then(json => ({id:json.id, url:json.external_urls.spotify}))
 }
 
 export const addSongs = (

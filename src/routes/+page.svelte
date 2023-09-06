@@ -1,7 +1,20 @@
 <script>
+    import { onMount } from "svelte";
     import Title from "../components/layout/Title.svelte";
     import Logo from "../components/shared/Logo.svelte";
     import ProfileButton from "../components/shared/ProfileButton.svelte";
+
+    onMount(() => {
+        if('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready
+            .then(()=> {
+                if('Notification' in window && Notification.permission === 'default') {
+                    Notification.requestPermission()
+                }
+            })
+        }
+        
+    })
 </script>
 <svelte:head>
     <title>Spoter - Homepage</title>
