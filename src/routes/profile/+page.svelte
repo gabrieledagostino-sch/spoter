@@ -8,11 +8,7 @@
     let user = data.user
     let songs = data.songs
 
-    onMount(() => {
-        if(form.success) {
-            console.log("here")
-        }
-    })
+    console.log(form)
 </script>
 <svelte:head>
     <title>Spoter - Profile</title>
