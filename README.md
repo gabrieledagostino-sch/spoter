@@ -4,11 +4,14 @@ DISCLAIMER: This project integrates with Spotify APIs for functionality. However
 
 Spoter is a web app that makes discovering new music easy and straigthforward. Just search for a track, an autor or a genre that you like and it will use spotify APIs to make suggestions. It will show a preview and just by swiping left or right you tell your interest. You can then go in your profile and make a playlist out of those interests.
 
+Jest  testing is alredy setup and watching on \_\_test__ folder.
+
 # Enviroment variables
 
 ```sh
 #public
 PUBLIC_GHLink=https://github.com/yourGithubProfile
+PUBLIC_URL= #url
 
 # private static
 SP_CLIENT_ID= #spotify app client id
@@ -43,24 +46,7 @@ Obtain a valid certificate for localhost, with mkcert
   - spoter-ws
        Container with the actual sveltekit app, entrypoint has a shell command that makes prisma initialize the database, starting with generate and a migration, then it creates the triggers and at last runs ```npm run preview```, it will be on https://localhost:4173
 
-Setting up the containers as a dev enviroment instead is quite simple, delete from the dockerfile the ```Run npm run build``` line and in entrypoint.sh modify the last line to ```npm run dev```
-
-# Website Libraries
-
-- __cardDragging__
-  used in discoverQueue, sets up the dragging animation.
-- __clickOutside__
-  used in Selector2 and Popup, for the clickOutside event.
-- __prisma__
-  sets up the prismaClient.
-- __Spotify__
-  Wraps all the spotify api calls used to get already formatted responses, the normalRequest internal function, sends a request if failed for 401 sends a refresh request and retries.
-- __Authentication --UNUSED--__
-  From a previous commit with a self-made authentication system with jwt.
-- __Validation --UNUSED--__
-  From a previous commit with a self-made authentication system with jwt.
-
-# Website
+Setting up the containers as a dev enviroment instead is quite simple, delete from the dockerfile the ```Run npm run build``` line and in entrypoint.sh modify the last line to ```npm run dev``` (will run on port 5173 instead)
 ## Pages
 
 - __/__
@@ -68,9 +54,9 @@ Setting up the containers as a dev enviroment instead is quite simple, delete fr
 - __/profile__
   Profile page, with the interests songs, a few stats of the user and the possibility to create playlists. 
 - __/discover__
-  Form used to start a queue, homepage if logged.
+  Form used to start a queue, homepage if logged. Navigate via Logo button.
 - __/discoverQueue__
-  The discovery queue with cards that can be dragged in a similar to tinder fashion.
+  The discovery queue with cards that can be dragged in a similar to tinder fashion (left = dislike, right = like).
 
 ## Server endpoints
 
@@ -90,39 +76,3 @@ The enpoints aren't really REST APIs because most of the client state is stored 
     - /refresh
     - /tracks
 
-## Server  Hook
-
-## Service-worker
-
-# Components
-
-- discoverSong
-  - ArtistSuggestions
-  - Card
-  - Search
-  - Suggestion
-  - TrackSuggestion
-- index
-  - MainCard
-- Layout
-  - DesktopHeader
-  - Footer
-  - Header
-  - MobileHeader
-  - Title
-- Profile
-  - ListSong
-  - PlaylistCreation
-  - profile
-- Shared
-  - Button
-  - Dialog
-  - Input
-  - LoggedButton
-  - LoginButton
-  - Logo
-  - LogoutForm_notused
-  - Popup
-  - ProfileButton
-  - Select2
-  - Selector
