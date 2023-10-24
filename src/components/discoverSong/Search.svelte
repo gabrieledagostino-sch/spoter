@@ -18,6 +18,10 @@
     const debouncedRequest = async () => { //search after a timer, if recalled restart timer with new query
         clearInterval(suggestionTimeout)
         first=undefined;
+        if(query.length() <= 0) {
+            choices = [];
+            return; 
+        }
         choices = [{
             isSvelte:false,
             element:`Loading ...`,

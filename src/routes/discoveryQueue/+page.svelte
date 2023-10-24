@@ -1,6 +1,6 @@
 <script>
     import Card from "../../components/discoverSong/Card.svelte";
-    import { onDestroy, onMount } from "svelte";
+    import { getContext, onDestroy, onMount } from "svelte";
     import { animate } from "$lib/cardDragging.js";
     import { fade, fly } from "svelte/transition";
 
@@ -23,8 +23,12 @@
     $: active = cards[0] ?? undefined;
     $: second = cards[1] ?? undefined;
     $: third  = cards[2] ?? undefined;
-    
-    $: { console.log(dragging) }
+    $: {
+        let aplay = getContext('autoplay')
+        if(aplay) {
+            playHandle(active.preview)
+        }
+    }
 
     const swiped = async(e, card) => {
         last = e.detail==='left'?-1:1;

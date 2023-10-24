@@ -4,6 +4,7 @@
     const githubClick = () => {
         window.location = PUBLIC_GHLink;
     }
+    export let autoplay;
 </script>
 <footer
     class="        
@@ -24,6 +25,7 @@
         gap-4
     "
 >
+    <div></div>
     <div class="git">
         <span>Gabriele D'Agostino</span>
         <i 
@@ -40,6 +42,6 @@
         ></i>
     </div>
     <div class="autoplay">
-        <Slider fontSize='1rem' label={'AutoPlay'} />
+        <Slider fontSize='1rem' label={'AutoPlay'} value={autoplay}/>
     </div>
 </footer>
