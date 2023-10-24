@@ -45,7 +45,7 @@ self.addEventListener('fetch', (event) => {
         //if it doesn't end with js, css or html is cachable (static file)
         const isCachable = !nonCachable.some(extension => event.request.url.endsWith(extension))
         const url = new URL(event.request.url)
-        console.log(url, isCachable, nonCachable)
+        console.log(url.href, isCachable, nonCachable)
 
         //static files always served from cache
         if(ASSETS.includes(url.pathname)) { 
