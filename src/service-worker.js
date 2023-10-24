@@ -44,7 +44,10 @@ self.addEventListener('fetch', (event) => {
 
         //if it doesn't end with js, css or html is cachable (static file)
         const isCachable = !nonCachable.some(extension => event.request.url.endsWith(extension))
+        
         const url = new URL(event.request.url)
+        if(url.href.startsWith('https://spoter.vercel.app/api/spotify/callback')) isCachable = false
+
         console.log(url.href, isCachable, nonCachable)
 
         //static files always served from cache
