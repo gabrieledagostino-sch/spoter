@@ -10,6 +10,8 @@ export const animate = (t, options={}) => {
     interact(t).draggable({
         onstart: (e) => {
             const target = e.target;
+            target.setAttribute('dragging',true);
+            target.dispatchEvent(new CustomEvent('dragin'))
 
             x = 0;
             y = 0;
@@ -35,7 +37,7 @@ export const animate = (t, options={}) => {
         onend: (e)=>{
             const target = e.target;
             target.setAttribute('dragging', false);
-            
+            target.dispatchEvent(new CustomEvent('dragout'))
             let moved = (Math.sqrt(Math.pow(e.pageX - e.x0, 2) + Math.pow(e.pageY - e.y0, 2) | 0));
             if(moved > threshold){
                 target.dispatchEvent(new CustomEvent('swiped', {

@@ -13,6 +13,7 @@
     let last = 1;
     let audio;
     let fetching = true;
+    let dragging = false;
 
     $: {
         if(!fetching && cards.length < MIN_CARDS && next)
@@ -23,6 +24,7 @@
     $: second = cards[1] ?? undefined;
     $: third  = cards[2] ?? undefined;
     
+    $: { console.log(dragging) }
 
     const swiped = async(e, card) => {
         last = e.detail==='left'?-1:1;
@@ -68,7 +70,29 @@
         overflow-hidden
     "
 >
+    {#if dragging}
+
+    <div class="
+        guide
+        absolute
+        top-0
+        left-0
+        w-full
+        h-full
+        z-10
+        flex
+        justify-between
+        align-bottom
+        bg-gradient-to-b from-transparent to-green-500
+        "
+    >
+        <i class="fa-solid fa-heart m-4 text-mainColor"></i>
+        <i class="fa-solid fa-xmark m-4 text-mainColor"></i>
+    </div>
+
+    {/if}
     {#each cards as card (card.id)}
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
         <div 
             class="card
                 absolute
@@ -87,6 +111,8 @@
             class:third={third === card}
 
             on:swiped={(e) => swiped(e, card)}
+            on:dragin={()=>dragging=true}
+            on:dragout={()=>dragging=false}
             out:fly={{x:last*200, y:-100}}
 
         >
