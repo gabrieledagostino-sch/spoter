@@ -2,7 +2,7 @@
     import Card from "../../components/discoverSong/Card.svelte";
     import { onMount } from "svelte";
     import { animate } from "$lib/cardDragging.js";
-    import { fly } from "svelte/transition";
+    import { fade, fly } from "svelte/transition";
 
     export let data;
 
@@ -82,12 +82,13 @@
         z-10
         flex
         justify-between
-        align-bottom
+        items-end
         bg-gradient-to-b from-transparent to-green-500
         "
+        transition:fade
     >
-        <i class="fa-solid fa-heart m-4 text-mainColor"></i>
-        <i class="fa-solid fa-xmark m-4 text-mainColor"></i>
+        <i class="fa-solid fa-heart m-4 text-mainColor text-xl"></i>
+        <i class="fa-solid fa-xmark m-4 text-mainColor text-xl"></i>
     </div>
 
     {/if}
