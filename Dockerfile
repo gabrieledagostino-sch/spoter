@@ -3,7 +3,7 @@ RUN mkdir /home/node/spoter
 WORKDIR /home/node/spoter
 COPY . .
 RUN chmod +x entrypoint.sh
-RUN npm ci
+RUN npm install
 RUN npm run build
 EXPOSE 5173
 EXPOSE 4173
