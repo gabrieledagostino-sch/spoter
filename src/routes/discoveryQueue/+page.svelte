@@ -1,6 +1,6 @@
 <script>
     import Card from "../../components/discoverSong/Card.svelte";
-    import { onMount } from "svelte";
+    import { onDestroy, onMount } from "svelte";
     import { animate } from "$lib/cardDragging.js";
     import { fade, fly } from "svelte/transition";
 
@@ -58,6 +58,10 @@
         animate('.active');
         audio=new Audio()
         fetching = false
+    })
+
+    onDestroy(() => {
+        stopHandle()
     })
 
 </script>
