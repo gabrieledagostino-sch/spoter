@@ -10,6 +10,7 @@ export async function GET({ url, cookies, fetch }) {
     const state = url.searchParams.get('state')
     const code = url.searchParams.get('code')
     const error = url.searchParams.get('error')
+    console.log(state, code, error)
 
     //checks if it not a random navigation
     if(!state) throw redirect(307, '/')
@@ -21,14 +22,14 @@ export async function GET({ url, cookies, fetch }) {
     //crf attack protection
     const storedState = cookies.get('TempID')
     cookies.delete('TempID', {path:'/'})
-
+    console.log(storedState)
     if(storedState !== state) return json({ // FAIL
         message:"Requests ID is unknown"
     }, {status:401})
 
     //get tokens
     const authTokResp = await requestAccessToken(code, fetch).catch(err => err)
-
+    console.log(authTokResp)
     
     if(authTokResp.status) return json({ // FAIL
         message:authTokResp.message,
