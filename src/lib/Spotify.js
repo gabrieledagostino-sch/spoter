@@ -42,6 +42,7 @@ export const requestAccessToken = async (
 })
 .then(resp => resp.json())
 .then(json => {
+    console.log(json)
     if(json.error) throw {status:json.error.status, message:json.error.message}
     return json
 })
