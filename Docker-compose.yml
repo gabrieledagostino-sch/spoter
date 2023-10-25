@@ -16,8 +16,24 @@ services:
     volumes:
       - spoter-db-data:/var/lib/postgresql/data
     restart: unless-stopped
+  #Prisma studio service
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    depends_on:
+      - postgres
+    ports:
+      - "5555:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_LISTEN_PORT: 80
+    volumes:
+      - spoter-pgadmin-data:/var/lib/pgadmin
+    restart: unless-stopped
   #web server container
   webServer:
+    stdin_open: true
     build:
       context: .
       dockerfile: Dockerfile
@@ -40,8 +56,10 @@ services:
       - ./tailwind.config.cjs:/home/node/spoter/tailwind.config.cjs
       - ./prisma/schema.prisma:/home/node/spoter/prisma/schema.prisma
       - ./.env:/home/node/spoter/.env
-    entrypoint: sh ./entrypoint.sh
+    tty: true
+    entrypoint: ./entrypoint.sh
     restart: no
 
 volumes:
   spoter-db-data:
+  spoter-pgadmin-data:

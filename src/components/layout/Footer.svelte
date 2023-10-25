@@ -1,10 +1,24 @@
 <script>
     import { PUBLIC_GHLink } from "$env/static/public";
+    import { autoplay } from "$lib/stores/autoplayStore";
     import Slider from "../shared/Slider.svelte";
+    import { onMount } from "svelte";
+    let ap = false;
     const githubClick = () => {
         window.location = PUBLIC_GHLink;
     }
-    export let autoplay;
+    
+    $:{
+        if(ap) ;
+        console.log('footer',ap)
+        autoplay.set(ap)
+    }
+    onMount(() => {
+        let unsubscribe= autoplay.subscribe(v => ap=v)
+        unsubscribe();
+        ap = !(!ap);
+        
+    })
 </script>
 <footer
     class="        
@@ -42,6 +56,6 @@
         ></i>
     </div>
     <div class="autoplay">
-        <Slider fontSize='1rem' label={'AutoPlay'} value={autoplay}/>
+        <Slider fontSize='1rem' label={'AutoPlay'} bind:value={ap} />
     </div>
 </footer>
