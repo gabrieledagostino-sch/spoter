@@ -40,7 +40,10 @@ export const requestAccessToken = async (
             redirect_uri:callBackURL
         }).toString(),
 })
-.then(resp => resp.json())
+.then(resp => {
+    console.log(resp)
+    return resp.json();
+})
 .then(json => {
     console.log(json)
     if(json.error) throw {status:json.error.status, message:json.error.message}
