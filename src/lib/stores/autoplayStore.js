@@ -1,3 +1,3 @@
 import { writable } from "svelte/store";
 
-export const autoplay = writable(true);
+export const autoplay = writable(false);

@@ -7,6 +7,10 @@
     export let name = 'a';
     export let artist = 'a';
     export let addInfo = 'a';
+
+    export const playFunction = () => {
+        playing = true;
+    }
     let hovering = false;
     let playing = false;
 </script>

@@ -10,7 +10,6 @@ export async function GET({ url, cookies, fetch }) {
     const state = url.searchParams.get('state')
     const code = url.searchParams.get('code')
     const error = url.searchParams.get('error')
-    console.log('callback:',state, code, error)
 
     //checks if it not a random navigation
     if(!state) throw redirect(307, '/')
@@ -22,14 +21,12 @@ export async function GET({ url, cookies, fetch }) {
     //crf attack protection
     const storedState = cookies.get('TempID')
     cookies.delete('TempID', {path:'/'})
-    console.log('callback:',storedState)
     if(storedState !== state) return json({ // FAIL
         message:"Requests ID is unknown"
     }, {status:401})
 
     //get tokens
     const authTokResp = await requestAccessToken(code, fetch).catch(err => err)
-    console.log('callback:',authTokResp)
     
     if(authTokResp.status) return json({ // FAIL
         message:authTokResp.message,
@@ -41,7 +38,6 @@ export async function GET({ url, cookies, fetch }) {
 
     //get user info to update/create them in website db
     const userInfoResp = await getUserInfo(access_token, fetch).catch(err => err)
-    console.log('callback:',userInfoResp)
     if(userInfoResp.status) return json({ // FAIL
         message:userInfoResp.message,
         name:userInfoResp.statusText,
@@ -53,7 +49,6 @@ export async function GET({ url, cookies, fetch }) {
     let user = await prisma.user.findUnique({
         where:{ id }
     })
-    console.log('callback:',user)
     const promises = []
 
     if(user === null) {

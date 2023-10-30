@@ -15,7 +15,6 @@
     let audio;
     let fetching = true;
     let dragging = false;
-    let autoplayVal = false;
 
     $: {
         if(!fetching && cards.length < MIN_CARDS && next)
@@ -25,11 +24,7 @@
     $: active = cards[0] ?? undefined;
     $: second = cards[1] ?? undefined;
     $: third  = cards[2] ?? undefined;
-    $: {
-        if(active && autoplayVal) {
-            playHandle(active.preview)
-        }
-    }
+    
     const swiped = async(e, card) => {
         last = e.detail==='left'?-1:1;
         audio.pause()
@@ -39,6 +34,12 @@
             method:"post",
             body:JSON.stringify({direction:e.detail, id:card.id})
         }))
+        .then(() => {
+            if($autoplay) {
+                active.playFunction()
+                playHandle(active.preview)
+            }
+        })
     }
 
     const getMore = async () => {
@@ -59,10 +60,22 @@
         audio.pause()
     }
     onMount(() => {
+        const name = 'autoplay'
+        let cookieVal;
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';')
+        for (let c of ca) {
+            c = c.trim()
+            if(c.indexOf(name + '=') === 0) cookieVal = c.substring(name.length + 1) === 'true'; 
+        }
+        if(cookieVal != $autoplay) autoplay.set(cookieVal)
         animate('.active');
         audio=new Audio()
         fetching = false
-        autoplay.subscribe(v => autoplayVal = v)
+        if($autoplay) {
+            active.playFunction()
+            playHandle(active.preview)
+        }
     })
 
     onDestroy(() => {
@@ -88,7 +101,8 @@
         left-0
         w-full
         h-full
-        z-10
+        md:z-10
+        z-50
         flex
         justify-between
         items-end
@@ -96,8 +110,8 @@
         "
         transition:fade
     >
-        <i class="fa-solid fa-heart m-4 text-mainColor text-xl"></i>
         <i class="fa-solid fa-xmark m-4 text-mainColor text-xl"></i>
+        <i class="fa-solid fa-heart m-4 text-mainColor text-xl"></i>
     </div>
 
     {/if}
@@ -126,7 +140,7 @@
             out:fly={{x:last*200, y:-100}}
 
         >
-            <Card on:pause={stopHandle} on:play={() => playHandle(card.preview)} name={card.name} artist={card.artists.join(", ")} img={card.image} addInfo={card.album}/>
+            <Card on:pause={stopHandle} bind:playFunction={card.playFunction} on:play={() => playHandle(card.preview)} name={card.name} artist={card.artists.join(", ")} img={card.image} addInfo={card.album}/>
         </div>
     {:else}
         <div class="flex-1 text-complementaryFG">

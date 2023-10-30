@@ -1,24 +1,21 @@
 <script>
     import { PUBLIC_GHLink } from "$env/static/public";
-    import { autoplay } from "$lib/stores/autoplayStore";
     import Slider from "../shared/Slider.svelte";
-    import { onMount } from "svelte";
-    let ap = false;
+    
     const githubClick = () => {
         window.location = PUBLIC_GHLink;
     }
-    
-    $:{
-        if(ap) ;
-        console.log('footer',ap)
-        autoplay.set(ap)
+    export let initialValue;
+
+    const changeHandle = (e) => {
+        console.log('changing to' + e.detail.value)
+        let value = e.detail.value;
+        let expiration = new Date();
+        expiration.setTime(expiration.getTime() + 1000*3600)
+        let cookie = `autoplay=${value};expires=${expiration.toUTCString()};path=/`
+        console.log(cookie)
+        document.cookie=cookie;
     }
-    onMount(() => {
-        let unsubscribe= autoplay.subscribe(v => ap=v)
-        unsubscribe();
-        ap = !(!ap);
-        
-    })
 </script>
 <footer
     class="        
@@ -56,6 +53,6 @@
         ></i>
     </div>
     <div class="autoplay">
-        <Slider fontSize='1rem' label={'AutoPlay'} bind:value={ap} />
+        <Slider fontSize='1rem' label={'AutoPlay'} on:change={changeHandle} initialValue={initialValue}/>
     </div>
 </footer>

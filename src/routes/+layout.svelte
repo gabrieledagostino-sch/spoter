@@ -11,5 +11,5 @@
     <main class="flex-grow flex justify-stretch items-stretch overflow-hidden">
         <slot />
     </main>
-    <Footer/>
+    <Footer initialValue={data.autoplay}/>
 </div>

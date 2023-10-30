@@ -7,8 +7,8 @@ const CACHE = `cache-${version}`;
 const ASSETS = [
     ...files,  // everything in `static`
 ];
-const nonCachable = ['.js', '.css', '.html', '/' , '/profile', '/discover', '/discoverQueue', '/logout', '/login']
- 
+const nonCachable = ['/profile', '/discover', '/discoverQueue', '/logout', '/login', '/callback']
+const nonCachableExtensions = ['.js', '.css', '.html', '/']
 self.addEventListener('install', (event) => {
     // Create a new cache and add all files to it
 
@@ -43,7 +43,8 @@ self.addEventListener('fetch', (event) => {
         const cache = await caches.open(CACHE)
 
         //if it doesn't end with js, css or html is cachable (static file)
-        const isCachable = !event.request.url.startsWith('https://spoter.vercel.app/api/spotify/callback') || !nonCachable.some(extension => event.request.url.endsWith(extension))
+        let isCachable = !nonCachable.some(sub => event.request.url.includes(sub))
+        isCachable = isCachable && !nonCachableExtensions.some(extension => event.request.url.endsWith(extension))
         
         const url = new URL(event.request.url)
 
